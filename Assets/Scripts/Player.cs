@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 
+//사용자가 플레이하는 플레이어
 public class Player : MonoBehaviour, IPlayable
 {
     [Header("Controll")]
@@ -14,12 +15,6 @@ public class Player : MonoBehaviour, IPlayable
     [Header("Component")]
     public GameObject cameraRoot;
 
-    [Header("Stat")]
-    public Character character;
-    public float health;
-    public float power;
-    public float speed;
-
     [Header("InputSystem")]
     public Vector2 inputVec;
     public float mouseX;
@@ -27,14 +22,29 @@ public class Player : MonoBehaviour, IPlayable
     public bool attack;
     public bool dash;
 
-    public State state { get; set; }
+    #region IPlayable
+    public Character character { get; set; }
     public CharacterController controller { get; set; }
     public bool comboAttack { get; set; }
 
-    void Awake()
+    public float health { get; set; }
+    public float power { get; set; }
+    public float speed { get; set; }
+
+    public void EndAttack()
     {
-        controller = GetComponent<CharacterController>();
+        ChangeState(State.Idle);
     }
+    #endregion
+
+    public enum State
+    {
+        Idle,
+        Move,
+        Attack,
+        Dash
+    }
+    State state;
 
     void Start()
     {
@@ -43,6 +53,7 @@ public class Player : MonoBehaviour, IPlayable
 
     void Update()
     {
+        AddGravity();
         UpdateState();
     }
 
@@ -147,7 +158,7 @@ public class Player : MonoBehaviour, IPlayable
                     {
                         dash = false;
                     }
-                    else if(attack)
+                    else if (attack)
                     {
                         attack = false;
                         comboAttack = true;
@@ -165,9 +176,25 @@ public class Player : MonoBehaviour, IPlayable
     #region Methods
     public void Init()
     {
-        //캐릭터 초기화
+        //초기화        
+        character = transform.GetComponentInChildren<Character>();
+        character.GetComponent<CharacterController>().enabled = false;
+
+        //캐릭터의 "캐릭터컨트롤러"를 참조
+        controller = gameObject.AddComponent<CharacterController>();
+        controller.center = character.GetComponent<CharacterController>().center;
+        controller.radius = character.GetComponent<CharacterController>().radius;
+        controller.height = character.GetComponent<CharacterController>().height;
+
+        //상태 및 스텟 초기화
         state = State.Idle;
         speed = character.speed;
+    }
+
+    void AddGravity()
+    {
+        //중력 적용
+        controller.Move(new Vector3(0, Physics.gravity.y, 0));
     }
 
     void Move()
@@ -185,7 +212,7 @@ public class Player : MonoBehaviour, IPlayable
         //이동상태가 아니라면 함수 중지
         if (state != State.Move)
             return;
-            
+
         //회전
         if (inputVec != Vector2.zero)
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
@@ -195,24 +222,24 @@ public class Player : MonoBehaviour, IPlayable
     }
 
     void Attack()
-    {    
+    {
         attack = false;
         controller.Move(Vector3.zero);
         character.Attack();
     }
 
-    IEnumerator  Dash()
+    IEnumerator Dash()
     {
         character.PlayAnimation("Dash", true);
 
         Vector3 inputDirection = new Vector3(inputVec.x, 0, inputVec.y);
         Vector3 cameraForward = new Vector3(cameraRoot.transform.forward.x, 0, cameraRoot.transform.forward.z);
 
-        transform.forward = (inputDirection == Vector3.zero) ? 
+        transform.forward = (inputDirection == Vector3.zero) ?
             transform.forward : Quaternion.LookRotation(cameraForward) * inputDirection;
 
         float elapsedTime = 0;
-        while(elapsedTime < character.dashTime)
+        while (elapsedTime < character.dashTime)
         {
             elapsedTime += Time.deltaTime;
 

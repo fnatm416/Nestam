@@ -572,10 +572,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1521180895}
-  - component: {fileID: 1521180894}
   - component: {fileID: 1521180893}
   - component: {fileID: 1521180892}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,10 +598,6 @@ MonoBehaviour:
   sensitivity: 0.25
   rotateSpeed: 10
   cameraRoot: {fileID: 1577664396}
-  character: {fileID: 3204949778382977931}
-  health: 0
-  power: 0
-  speed: 0
   inputVec: {x: 0, y: 0}
   mouseX: 0
   mouseY: 0
@@ -638,32 +633,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!143 &1521180894
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1521180891}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.5
-  m_Radius: 0.5
-  m_SlopeLimit: 0
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!4 &1521180895
 Transform:
   m_ObjectHideFlags: 0
@@ -690,7 +659,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1577664397}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1595,6 +1564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2824201698913526064}
+  - component: {fileID: 3204949778382977932}
   - component: {fileID: 2358528335733429354}
   - component: {fileID: 3204949778382977931}
   m_Layer: 0
@@ -1621,6 +1591,32 @@ MonoBehaviour:
   speed: 10
   dashSpeed: 30
   dashTime: 0.25
+--- !u!143 &3204949778382977932
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3204949778382977930}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.5
+  m_Radius: 0.5
+  m_SlopeLimit: 0
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!137 &3225741039595817613
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//능력치와 특성을 가진 캐릭터들을 상속시켜서 사용
 public class Character : MonoBehaviour
 {
     [Header("Stat")]
@@ -29,6 +30,6 @@ public class Character : MonoBehaviour
 
     public void EndAttack()
     {
-        owner.ChangeState(State.Idle);
+        owner.EndAttack();
     }
 }
