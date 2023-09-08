@@ -5,22 +5,16 @@ using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
 //AI를 가지고 플레이어를 공격하는 적
-public class Enemy : MonoBehaviour, IPlayable
-{
-    #region IPlayable
-    public Character character { get; set; }
-    public CharacterController controller { get; set; }
+public class Enemy : MonoBehaviour, IAttackable
+{   
     public bool comboAttack { get; set; }
+    public void EndAttack() { }
 
-    public float health { get; set; }
-    public float power { get; set; }
-    public float speed { get; set; }
-
-    public void EndAttack()
-    {
-
-    }
-    #endregion
+    [SerializeField] Character character;
+    [SerializeField] CharacterController controller;
+    [SerializeField] float health;
+    [SerializeField] float power;
+    [SerializeField] float speed;
 
     public enum State
     {
@@ -29,7 +23,7 @@ public class Enemy : MonoBehaviour, IPlayable
         Attack,
         Dash
     }
-    State state;
+    [SerializeField] State state;
 
     void Start()
     {
@@ -38,6 +32,7 @@ public class Enemy : MonoBehaviour, IPlayable
 
     void Update()
     {
+        AddGravity();
         UpdateState();
     }
 
@@ -101,17 +96,26 @@ public class Enemy : MonoBehaviour, IPlayable
     #region Methods
     public void Init()
     {
-        //캐릭터 초기화        
+        //초기화        
         character = transform.GetComponentInChildren<Character>();
         character.GetComponent<CharacterController>().enabled = false;
 
+        //캐릭터의 "캐릭터컨트롤러"를 참조
         controller = gameObject.AddComponent<CharacterController>();
+        controller.slopeLimit = 0;
         controller.center = character.GetComponent<CharacterController>().center;
         controller.radius = character.GetComponent<CharacterController>().radius;
         controller.height = character.GetComponent<CharacterController>().height;
 
+        //상태 및 스텟 초기화
         state = State.Idle;
         speed = character.speed;
+    }
+
+    void AddGravity()
+    {
+        if (!controller.isGrounded)
+            controller.Move(new Vector3(0, Physics.gravity.y, 0));
     }
     #endregion
 }

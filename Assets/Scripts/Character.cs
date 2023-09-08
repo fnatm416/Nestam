@@ -10,13 +10,13 @@ public class Character : MonoBehaviour
     public float dashSpeed;
     public float dashTime;
 
-    protected IPlayable owner;
+    protected IAttackable owner;
     protected Animator animator;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
-        owner = transform.parent.GetComponent<IPlayable>();
+        owner = transform.parent.GetComponent<IAttackable>();
     }
 
     public virtual void Attack()

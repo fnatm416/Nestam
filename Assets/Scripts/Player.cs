@@ -4,8 +4,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 
 //사용자가 플레이하는 플레이어
-public class Player : MonoBehaviour, IPlayable
+public class Player : MonoBehaviour, IAttackable
 {
+    public bool comboAttack { get; set; }
+    public void EndAttack() { ChangeState(State.Idle); }
+
     [Header("Controll")]
     public float minAngle;  //마우스 최소각도
     public float maxAngle;  //마우스 최대각도
@@ -22,21 +25,11 @@ public class Player : MonoBehaviour, IPlayable
     public bool attack;
     public bool dash;
 
-    #region IPlayable
-    public Character character { get; set; }
-    public CharacterController controller { get; set; }
-    public bool comboAttack { get; set; }
-
-    public float health { get; set; }
-    public float power { get; set; }
-    public float speed { get; set; }
-
-    public void EndAttack()
-    {
-        ChangeState(State.Idle);
-    }
-    #endregion
-
+    [SerializeField] Character character;
+    [SerializeField] CharacterController controller;
+    [SerializeField] float health;
+    [SerializeField] float power;
+    [SerializeField] float speed;
     public enum State
     {
         Idle,
@@ -182,6 +175,7 @@ public class Player : MonoBehaviour, IPlayable
 
         //캐릭터의 "캐릭터컨트롤러"를 참조
         controller = gameObject.AddComponent<CharacterController>();
+        controller.slopeLimit = 0;
         controller.center = character.GetComponent<CharacterController>().center;
         controller.radius = character.GetComponent<CharacterController>().radius;
         controller.height = character.GetComponent<CharacterController>().height;

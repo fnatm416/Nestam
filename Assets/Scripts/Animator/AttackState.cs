@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class AttackState : StateMachineBehaviour
 {
-    IPlayable owner;
+    IAttackable owner;
     Character character;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        owner = animator.transform.parent.GetComponent<IPlayable>();
+        owner = animator.transform.parent.GetComponent<IAttackable>();
         character = animator.GetComponent<Character>();
         owner.comboAttack = false;
     }
