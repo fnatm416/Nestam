@@ -38,6 +38,7 @@ public class Player : MonoBehaviour, IAttackable
         Dash
     }
     State state;
+    [SerializeField] LayerMask targetLayer;
 
     void Start()
     {
@@ -181,7 +182,7 @@ public class Player : MonoBehaviour, IAttackable
         controller.height = character.GetComponent<CharacterController>().height;
 
         //상태 및 스텟 초기화
-        state = State.Idle;
+        ChangeState(State.Idle);
         speed = character.speed;
     }
 

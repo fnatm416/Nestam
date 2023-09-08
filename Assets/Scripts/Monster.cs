@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
 //AI를 가지고 플레이어를 공격하는 적
-public class Enemy : MonoBehaviour, IAttackable
-{   
+public class Monster : MonoBehaviour, IAttackable
+{
     public bool comboAttack { get; set; }
     public void EndAttack() { }
 
@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour, IAttackable
         Dash
     }
     [SerializeField] State state;
+    [SerializeField] LayerMask targetLayer;
+    [SerializeField] GameObject target;
 
     void Start()
     {
@@ -75,10 +77,12 @@ public class Enemy : MonoBehaviour, IAttackable
         {
             case State.Idle:
                 {
+                    FindTarget();
                     break;
                 }
             case State.Trace:
                 {
+                    TraceTarget();
                     break;
                 }
             case State.Attack:
@@ -108,7 +112,7 @@ public class Enemy : MonoBehaviour, IAttackable
         controller.height = character.GetComponent<CharacterController>().height;
 
         //상태 및 스텟 초기화
-        state = State.Idle;
+        ChangeState(State.Idle);
         speed = character.speed;
     }
 
@@ -116,6 +120,30 @@ public class Enemy : MonoBehaviour, IAttackable
     {
         if (!controller.isGrounded)
             controller.Move(new Vector3(0, Physics.gravity.y, 0));
+    }
+
+    void FindTarget()
+    {
+        if (target != null)
+            ChangeState(State.Trace);
+
+        GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
+        foreach (GameObject obj in objects)
+        {
+            if (obj.layer == targetLayer)
+            {
+                target = obj;
+                ChangeState(State.Trace);
+                return;
+            }
+        }
+    }
+
+    void TraceTarget()
+    {
+        Vector3 direction = (target.transform.position - transform.position).normalized;
+        transform.forward = direction;
+        controller.Move(direction * speed * Time.deltaTime);
     }
     #endregion
 }
