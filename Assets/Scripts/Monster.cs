@@ -10,6 +10,9 @@ public class Monster : MonoBehaviour, IAttackable
     public bool comboAttack { get; set; }
     public void EndAttack() { }
 
+    [Header("Controll")]
+    public float rotateSpeed;   //캐릭터 회전속도
+
     [SerializeField] Character character;
     [SerializeField] CharacterController controller;
     [SerializeField] float health;
@@ -19,12 +22,12 @@ public class Monster : MonoBehaviour, IAttackable
     public enum State
     {
         Idle,
-        Trace,
+        Move,
         Attack,
         Dash
     }
     [SerializeField] State state;
-    [SerializeField] LayerMask targetLayer;
+    [SerializeField] string targetTag;
     [SerializeField] GameObject target;
 
     void Start()
@@ -54,10 +57,12 @@ public class Monster : MonoBehaviour, IAttackable
         {
             case State.Idle:
                 {
+                    character.PlayAnimation("Move", false);
                     break;
                 }
-            case State.Trace:
+            case State.Move:
                 {
+                    character.PlayAnimation("Move", true);
                     break;
                 }
             case State.Attack:
@@ -80,9 +85,10 @@ public class Monster : MonoBehaviour, IAttackable
                     FindTarget();
                     break;
                 }
-            case State.Trace:
+            case State.Move:
                 {
-                    TraceTarget();
+                    if (target) { MoveToTarget(); }
+                    else { ChangeState(State.Idle); }
                     break;
                 }
             case State.Attack:
@@ -124,26 +130,23 @@ public class Monster : MonoBehaviour, IAttackable
 
     void FindTarget()
     {
-        if (target != null)
-            ChangeState(State.Trace);
-
         GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
-        foreach (GameObject obj in objects)
+        foreach(GameObject obj in objects)
         {
-            if (obj.layer == targetLayer)
+            if(obj.tag == targetTag)
             {
                 target = obj;
-                ChangeState(State.Trace);
+                ChangeState(State.Move);
                 return;
-            }
+            }    
         }
     }
 
-    void TraceTarget()
+    void MoveToTarget()
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
-        transform.forward = direction;
-        controller.Move(direction * speed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotateSpeed * Time.deltaTime);
+        controller.Move(transform.forward * speed * Time.deltaTime);
     }
     #endregion
 }
