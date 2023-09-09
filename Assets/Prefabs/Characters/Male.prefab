@@ -324,6 +324,7 @@ MonoBehaviour:
   health: 0
   power: 0
   speed: 7.5
+  range: 1.5
   dashSpeed: 20
   dashTime: 0.25
 --- !u!1 &945257033844244353

@@ -7,6 +7,7 @@ public class Character : MonoBehaviour
     public float health;
     public float power;
     public float speed;
+    public float range;
     public float dashSpeed;
     public float dashTime;
 

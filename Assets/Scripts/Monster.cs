@@ -8,16 +8,18 @@ using UnityEngine.InputSystem.LowLevel;
 public class Monster : MonoBehaviour, IAttackable
 {
     public bool comboAttack { get; set; }
-    public void EndAttack() { }
+    public void EndAttack() { ChangeState(State.Idle); }
 
     [Header("Controll")]
     public float rotateSpeed;   //캐릭터 회전속도
 
     [SerializeField] Character character;
     [SerializeField] CharacterController controller;
+
     [SerializeField] float health;
     [SerializeField] float power;
     [SerializeField] float speed;
+    [SerializeField] float range;
 
     public enum State
     {
@@ -39,6 +41,17 @@ public class Monster : MonoBehaviour, IAttackable
     {
         AddGravity();
         UpdateState();
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (state == State.Attack)
+        {
+            if (other.gameObject == target)
+            {
+                comboAttack = false;
+            }
+        }
     }
 
     #region FSM
@@ -67,6 +80,9 @@ public class Monster : MonoBehaviour, IAttackable
                 }
             case State.Attack:
                 {
+                    character.PlayAnimation("Move", false);
+                    controller.Move(Vector3.zero);
+                    character.Attack();
                     break;
                 }
             case State.Dash:
@@ -87,12 +103,20 @@ public class Monster : MonoBehaviour, IAttackable
                 }
             case State.Move:
                 {
-                    if (target) { MoveToTarget(); }
+                    if (target)
+                    {
+                        if (TargetDisatance() <= range) { ChangeState(State.Attack); }
+                        else { MoveToTarget(); }
+                    }
                     else { ChangeState(State.Idle); }
+
                     break;
                 }
             case State.Attack:
                 {
+                    if (TargetDisatance() <= range) { comboAttack = true; }
+                    else { comboAttack = false; }
+
                     break;
                 }
             case State.Dash:
@@ -120,6 +144,7 @@ public class Monster : MonoBehaviour, IAttackable
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
         speed = character.speed;
+        range = character.range;
     }
 
     void AddGravity()
@@ -131,15 +156,23 @@ public class Monster : MonoBehaviour, IAttackable
     void FindTarget()
     {
         GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
-        foreach(GameObject obj in objects)
+        foreach (GameObject obj in objects)
         {
-            if(obj.tag == targetTag)
+            if (obj.tag == targetTag)
             {
                 target = obj;
                 ChangeState(State.Move);
                 return;
-            }    
+            }
         }
+    }
+
+    float TargetDisatance()
+    {
+        if (target)
+            return Vector3.Distance(target.transform.position, this.transform.position);
+        else
+            return Mathf.Infinity;
     }
 
     void MoveToTarget()
