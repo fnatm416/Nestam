@@ -7,9 +7,12 @@ public class Character : MonoBehaviour
     public float health;
     public float power;
     public float speed;
-    public float range;
+    //대쉬
     public float dashSpeed;
     public float dashTime;
+    //공격
+    public float attackRange;
+    public float attackDelay;
 
     protected IAttackable owner;
     protected Animator animator;

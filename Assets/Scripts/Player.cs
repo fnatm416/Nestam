@@ -7,7 +7,16 @@ using UnityEngine.InputSystem.XR;
 public class Player : MonoBehaviour, IAttackable
 {
     public bool comboAttack { get; set; }
-    public void EndAttack() { ChangeState(State.Idle); }
+    public void EndAttack() 
+    { 
+        ChangeState(State.Idle); 
+        StartCoroutine(AttackDelay()); 
+    }
+    public IEnumerator AttackDelay()
+    {
+        yield return new WaitForSeconds(attackDelay);
+        canAttack = true;
+    }
 
     [Header("Controll")]
     public float minAngle;  //마우스 최소각도
@@ -30,6 +39,9 @@ public class Player : MonoBehaviour, IAttackable
     [SerializeField] float health;
     [SerializeField] float power;
     [SerializeField] float speed;
+    [SerializeField] float attackDelay;
+    [SerializeField] bool canAttack = true;
+
     public enum State
     {
         Idle,
@@ -106,8 +118,9 @@ public class Player : MonoBehaviour, IAttackable
             case State.Idle:
                 {
                     // 공격
-                    if (attack)
+                    if (canAttack && attack)
                     {
+                        canAttack = false;
                         ChangeState(State.Attack);
                     }
                     // 이동
@@ -125,8 +138,9 @@ public class Player : MonoBehaviour, IAttackable
             case State.Move:
                 {
                     // 공격
-                    if (attack)
+                    if (canAttack && attack)
                     {
+                        canAttack = false;
                         ChangeState(State.Attack);
                     }
                     // 이동
@@ -184,6 +198,7 @@ public class Player : MonoBehaviour, IAttackable
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
         speed = character.speed;
+        attackDelay = character.attackDelay;
     }
 
     void AddGravity()

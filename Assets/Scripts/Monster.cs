@@ -8,7 +8,16 @@ using UnityEngine.InputSystem.LowLevel;
 public class Monster : MonoBehaviour, IAttackable
 {
     public bool comboAttack { get; set; }
-    public void EndAttack() { ChangeState(State.Idle); }
+    public void EndAttack()
+    {
+        ChangeState(State.Idle);
+        StartCoroutine(AttackDelay());
+    }
+    public IEnumerator AttackDelay()
+    {
+        yield return new WaitForSeconds(attackDelay);
+        canAttack = true;
+    }
 
     [Header("Controll")]
     public float rotateSpeed;   //캐릭터 회전속도
@@ -19,7 +28,9 @@ public class Monster : MonoBehaviour, IAttackable
     [SerializeField] float health;
     [SerializeField] float power;
     [SerializeField] float speed;
-    [SerializeField] float range;
+    [SerializeField] float attackRange;
+    [SerializeField] float attackDelay;
+    [SerializeField] bool canAttack = true;
 
     public enum State
     {
@@ -98,14 +109,23 @@ public class Monster : MonoBehaviour, IAttackable
         {
             case State.Idle:
                 {
-                    FindTarget();
+                    if (canAttack)
+                        FindTarget();
                     break;
                 }
             case State.Move:
                 {
                     if (target)
                     {
-                        if (TargetDisatance() <= range) { ChangeState(State.Attack); }
+                        if (TargetDisatance() <= attackRange)
+                        {
+                            if (canAttack)
+                            {
+                                canAttack = false;
+                                ChangeState(State.Attack);
+                            }
+                            else { ChangeState(State.Idle); }
+                        }
                         else { MoveToTarget(); }
                     }
                     else { ChangeState(State.Idle); }
@@ -114,7 +134,7 @@ public class Monster : MonoBehaviour, IAttackable
                 }
             case State.Attack:
                 {
-                    if (TargetDisatance() <= range) { comboAttack = true; }
+                    if (TargetDisatance() <= attackRange) { comboAttack = true; }
                     else { comboAttack = false; }
 
                     break;
@@ -144,7 +164,9 @@ public class Monster : MonoBehaviour, IAttackable
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
         speed = character.speed;
-        range = character.range;
+        attackRange = character.attackRange;
+        attackDelay = character.attackDelay;
+        canAttack = true;
     }
 
     void AddGravity()

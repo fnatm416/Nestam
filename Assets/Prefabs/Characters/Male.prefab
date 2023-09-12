@@ -241,7 +241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1042041725713365674
 Transform:
   m_ObjectHideFlags: 0
@@ -324,9 +324,10 @@ MonoBehaviour:
   health: 0
   power: 0
   speed: 7.5
-  range: 1.5
   dashSpeed: 20
   dashTime: 0.25
+  attackRange: 1.5
+  attackDelay: 1
 --- !u!1 &945257033844244353
 GameObject:
   m_ObjectHideFlags: 0
