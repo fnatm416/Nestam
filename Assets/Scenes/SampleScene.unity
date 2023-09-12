@@ -414,8 +414,10 @@ MonoBehaviour:
   speed: 0
   attackRange: 0
   attackDelay: 0
-  canAttack: 1
+  dashDistance: 0
+  dashTime: 0
   dashDelay: 0
+  canAttack: 1
   canDash: 0
   state: 0
   targetTag: Player
@@ -894,8 +896,10 @@ MonoBehaviour:
   power: 0
   speed: 0
   attackDelay: 0
-  canAttack: 1
+  dashDistance: 0
+  dashTime: 0
   dashDelay: 0
+  canAttack: 1
   canDash: 0
   targetLayer:
     serializedVersion: 2

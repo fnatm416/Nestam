@@ -40,8 +40,10 @@ public class Player : MonoBehaviour, IAttackable
     [SerializeField] float power;
     [SerializeField] float speed;
     [SerializeField] float attackDelay;
-    [SerializeField] bool canAttack;
+    [SerializeField] float dashDistance;
+    [SerializeField] float dashTime;
     [SerializeField] float dashDelay;
+    [SerializeField] bool canAttack;
     [SerializeField] bool canDash;
 
     public enum State
@@ -131,10 +133,14 @@ public class Player : MonoBehaviour, IAttackable
                         ChangeState(State.Move);
                     }
                     //대쉬
-                    else if (canDash && dash)
+                    else if (dash)
                     {
-                        canDash = false;
-                        ChangeState(State.Dash);
+                        if (canDash)
+                        {
+                            canDash = false;
+                            ChangeState(State.Dash);
+                        }
+                        else { dash = false; }
                     }
                     break;
                 }
@@ -152,10 +158,14 @@ public class Player : MonoBehaviour, IAttackable
                         ChangeState(State.Idle);
                     }
                     //대쉬
-                    else if (canDash && dash)
+                    else if (dash)
                     {
-                        canDash = false;
-                        ChangeState(State.Dash);
+                        if (canDash)
+                        {
+                            canDash = false;
+                            ChangeState(State.Dash);
+                        }
+                        else { dash = false; }
                     }
                     else
                     {
@@ -201,10 +211,14 @@ public class Player : MonoBehaviour, IAttackable
 
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
-        speed = character.speed;
-        attackDelay = character.attackDelay;
+        this.health = character.health;
+        this.power = character.power;
+        this.speed = character.speed;
+        this.attackDelay = character.attackDelay;
         canAttack = true;
-        dashDelay = character.dashDelay;       
+        this.dashDistance = character.dashDistance;       
+        this.dashTime = character.dashTime;       
+        this.dashDelay = character.dashDelay;       
         canDash = true;
     }
 
@@ -255,14 +269,14 @@ public class Player : MonoBehaviour, IAttackable
         transform.forward = (inputDirection == Vector3.zero) ?
             transform.forward : Quaternion.LookRotation(cameraForward) * inputDirection;
 
-        float v = character.dashDistance / character.dashTime;
+        float dashPower = dashDistance / dashTime;
 
         float elapsedTime = 0;
-        while (elapsedTime < character.dashTime)
+        while (elapsedTime < dashTime)
         {
             elapsedTime += Time.deltaTime;
 
-            controller.Move(transform.forward * v * Time.deltaTime);
+            controller.Move(transform.forward * dashPower * Time.deltaTime);
 
             yield return null;
         }

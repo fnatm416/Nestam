@@ -30,8 +30,10 @@ public class Monster : MonoBehaviour, IAttackable
     [SerializeField] float speed;
     [SerializeField] float attackRange;
     [SerializeField] float attackDelay;
-    [SerializeField] bool canAttack;
+    [SerializeField] float dashDistance;
+    [SerializeField] float dashTime;
     [SerializeField] float dashDelay;
+    [SerializeField] bool canAttack;
     [SerializeField] bool canDash;
 
     public enum State
@@ -131,7 +133,7 @@ public class Monster : MonoBehaviour, IAttackable
                         }
                         else
                         {
-                            if (TargetDisatance() > character.dashDistance && canDash) 
+                            if (TargetDisatance() > dashDistance && canDash) 
                             {
                                 canDash = false;
                                 ChangeState(State.Dash); 
@@ -145,7 +147,7 @@ public class Monster : MonoBehaviour, IAttackable
                 }
             case State.Attack:
                 {
-                    if (TargetDisatance() <= attackRange) { comboAttack = true; }
+                    if (TargetDisatance() <= character.attackRange) { comboAttack = true; }
                     else { comboAttack = false; }
 
                     break;
@@ -173,12 +175,16 @@ public class Monster : MonoBehaviour, IAttackable
         controller.height = character.GetComponent<CharacterController>().height;
 
         //상태 및 스텟 초기화
+        //상태 및 스텟 초기화
         ChangeState(State.Idle);
-        speed = character.speed;
-        attackRange = character.attackRange;
-        attackDelay = character.attackDelay;
+        this.health = character.health;
+        this.power = character.power;
+        this.speed = character.speed;
+        this.attackDelay = character.attackDelay;
         canAttack = true;
-        dashDelay = character.dashDelay;
+        this.dashDistance = character.dashDistance;
+        this.dashTime = character.dashTime;
+        this.dashDelay = character.dashDelay;
         canDash = true;
     }
 
@@ -223,14 +229,14 @@ public class Monster : MonoBehaviour, IAttackable
         Vector3 direction = (target.transform.position - transform.position).normalized;
         transform.forward = direction;
 
-        float v = character.dashDistance / character.dashTime;
+        float dashPower = dashDistance / dashTime;
 
         float elapsedTime = 0;
-        while (elapsedTime < character.dashTime)
+        while (elapsedTime < dashTime)
         {
             elapsedTime += Time.deltaTime;
 
-            controller.Move(transform.forward * v * Time.deltaTime);
+            controller.Move(transform.forward * dashPower * Time.deltaTime);
 
             yield return null;
         }
