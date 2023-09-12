@@ -776,10 +776,11 @@ MonoBehaviour:
   health: 0
   power: 0
   speed: 10
-  dashSpeed: 30
+  dashDistance: 7.5
   dashTime: 0.25
+  dashDelay: 1.5
   attackRange: 1.5
-  attackDelay: 1
+  attackDelay: 0
 --- !u!1 &3893080334404509017
 GameObject:
   m_ObjectHideFlags: 0

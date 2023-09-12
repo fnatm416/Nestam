@@ -30,7 +30,9 @@ public class Monster : MonoBehaviour, IAttackable
     [SerializeField] float speed;
     [SerializeField] float attackRange;
     [SerializeField] float attackDelay;
-    [SerializeField] bool canAttack = true;
+    [SerializeField] bool canAttack;
+    [SerializeField] float dashDelay;
+    [SerializeField] bool canDash;
 
     public enum State
     {
@@ -98,6 +100,8 @@ public class Monster : MonoBehaviour, IAttackable
                 }
             case State.Dash:
                 {
+                    character.PlayAnimation("Move", false);
+                    StartCoroutine(Dash());
                     break;
                 }
         }
@@ -124,9 +128,16 @@ public class Monster : MonoBehaviour, IAttackable
                                 canAttack = false;
                                 ChangeState(State.Attack);
                             }
-                            else { ChangeState(State.Idle); }
                         }
-                        else { MoveToTarget(); }
+                        else
+                        {
+                            if (TargetDisatance() > character.dashDistance && canDash) 
+                            {
+                                canDash = false;
+                                ChangeState(State.Dash); 
+                            }
+                            else { MoveToTarget(); }
+                        }
                     }
                     else { ChangeState(State.Idle); }
 
@@ -167,6 +178,8 @@ public class Monster : MonoBehaviour, IAttackable
         attackRange = character.attackRange;
         attackDelay = character.attackDelay;
         canAttack = true;
+        dashDelay = character.dashDelay;
+        canDash = true;
     }
 
     void AddGravity()
@@ -202,6 +215,35 @@ public class Monster : MonoBehaviour, IAttackable
         Vector3 direction = (target.transform.position - transform.position).normalized;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotateSpeed * Time.deltaTime);
         controller.Move(transform.forward * speed * Time.deltaTime);
+    }
+
+    IEnumerator Dash()
+    {
+        character.PlayAnimation("Dash", true);
+        Vector3 direction = (target.transform.position - transform.position).normalized;
+        transform.forward = direction;
+
+        float v = character.dashDistance / character.dashTime;
+
+        float elapsedTime = 0;
+        while (elapsedTime < character.dashTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            controller.Move(transform.forward * v * Time.deltaTime);
+
+            yield return null;
+        }
+
+        character.PlayAnimation("Dash", false);
+        ChangeState(State.Idle);
+        StartCoroutine(DashDelay());
+    }
+
+    IEnumerator DashDelay()
+    {
+        yield return new WaitForSeconds(dashDelay);
+        canDash = true;
     }
     #endregion
 }

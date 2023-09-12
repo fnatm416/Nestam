@@ -8,8 +8,9 @@ public class Character : MonoBehaviour
     public float power;
     public float speed;
     //대쉬
-    public float dashSpeed;
+    public float dashDistance;
     public float dashTime;
+    public float dashDelay;
     //공격
     public float attackRange;
     public float attackDelay;

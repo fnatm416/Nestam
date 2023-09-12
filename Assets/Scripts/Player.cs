@@ -40,7 +40,9 @@ public class Player : MonoBehaviour, IAttackable
     [SerializeField] float power;
     [SerializeField] float speed;
     [SerializeField] float attackDelay;
-    [SerializeField] bool canAttack = true;
+    [SerializeField] bool canAttack;
+    [SerializeField] float dashDelay;
+    [SerializeField] bool canDash;
 
     public enum State
     {
@@ -129,8 +131,9 @@ public class Player : MonoBehaviour, IAttackable
                         ChangeState(State.Move);
                     }
                     //대쉬
-                    else if (dash)
+                    else if (canDash && dash)
                     {
+                        canDash = false;
                         ChangeState(State.Dash);
                     }
                     break;
@@ -149,8 +152,9 @@ public class Player : MonoBehaviour, IAttackable
                         ChangeState(State.Idle);
                     }
                     //대쉬
-                    else if (dash)
+                    else if (canDash && dash)
                     {
+                        canDash = false;
                         ChangeState(State.Dash);
                     }
                     else
@@ -199,6 +203,9 @@ public class Player : MonoBehaviour, IAttackable
         ChangeState(State.Idle);
         speed = character.speed;
         attackDelay = character.attackDelay;
+        canAttack = true;
+        dashDelay = character.dashDelay;       
+        canDash = true;
     }
 
     void AddGravity()
@@ -248,12 +255,14 @@ public class Player : MonoBehaviour, IAttackable
         transform.forward = (inputDirection == Vector3.zero) ?
             transform.forward : Quaternion.LookRotation(cameraForward) * inputDirection;
 
+        float v = character.dashDistance / character.dashTime;
+
         float elapsedTime = 0;
         while (elapsedTime < character.dashTime)
         {
             elapsedTime += Time.deltaTime;
 
-            controller.Move(transform.forward.normalized * character.dashSpeed * Time.deltaTime);
+            controller.Move(transform.forward * v * Time.deltaTime);
 
             yield return null;
         }
@@ -261,6 +270,13 @@ public class Player : MonoBehaviour, IAttackable
         dash = false;
         character.PlayAnimation("Dash", false);
         ChangeState(State.Idle);
+        StartCoroutine(DashDelay());
+    }
+
+    IEnumerator DashDelay()
+    {
+        yield return new WaitForSeconds(dashDelay);
+        canDash = true;
     }
 
     void CameraRotation()
