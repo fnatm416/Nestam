@@ -61,7 +61,8 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         Idle,
         Move,
         Attack,
-        Dash
+        Dash,
+        Die
     }
     State state;
 
@@ -121,11 +122,19 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                     StartCoroutine(Dash());
                     break;
                 }
+            case State.Die:
+                {
+                    character.PlayAnimation("Die");
+                    break;
+                }
         }
     }
 
     public void UpdateState()
     {
+        if (health <= 0)
+            ChangeState(State.Die);
+
         switch (state)
         {
             case State.Idle:
@@ -194,9 +203,14 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                         attack = false;
                         comboAttack = true;
                     }
+
                     break;
                 }
             case State.Dash:
+                {
+                    break;
+                }
+            case State.Die:
                 {
                     break;
                 }
@@ -225,9 +239,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         this.speed = character.speed;
         this.attackDelay = character.attackDelay;
         canAttack = true;
-        this.dashDistance = character.dashDistance;       
-        this.dashTime = character.dashTime;       
-        this.dashDelay = character.dashDelay;       
+        this.dashDistance = character.dashDistance;
+        this.dashTime = character.dashTime;
+        this.dashDelay = character.dashDelay;
         canDash = true;
         targetTag = "Monster";
     }

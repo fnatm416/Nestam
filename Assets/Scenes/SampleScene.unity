@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce4436657f0a3043b6944d79360a7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 5
+  rotateSpeed: 10
   character: {fileID: 0}
   controller: {fileID: 0}
   health: 0

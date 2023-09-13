@@ -51,7 +51,8 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         Idle,
         Move,
         Attack,
-        Dash
+        Dash,
+        Die
     }
     [SerializeField] State state;
     [SerializeField] GameObject target;
@@ -104,11 +105,19 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     StartCoroutine(Dash());
                     break;
                 }
+            case State.Die:
+                {
+                    character.PlayAnimation("Die");
+                    break;
+                }
         }
     }
 
     public void UpdateState()
     {
+        if (health <= 0)
+            ChangeState(State.Die);
+
         switch (state)
         {
             case State.Idle:
@@ -150,6 +159,10 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     break;
                 }
             case State.Dash:
+                {
+                    break;
+                }
+            case State.Die:
                 {
                     break;
                 }

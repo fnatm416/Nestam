@@ -7,6 +7,7 @@ public interface IAttackable
     //공격가능한 개체
     public bool comboAttack { get; set; }
     public string targetTag { get; set; }
+
     public void EndAttack();
     public IEnumerator AttackDelay();
 }
