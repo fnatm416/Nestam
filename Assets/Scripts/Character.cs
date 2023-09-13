@@ -15,16 +15,16 @@ public class Character : MonoBehaviour
     public float attackRange;
     public float attackDelay;
 
-    protected IAttackable owner;
+    protected IAttackable attackable;
     protected Animator animator;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
-        owner = transform.parent.GetComponent<IAttackable>();
+        attackable = transform.parent.GetComponent<IAttackable>();
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
         PlayAnimation("Attack");
     }
@@ -35,6 +35,6 @@ public class Character : MonoBehaviour
 
     public void EndAttack()
     {
-        owner.EndAttack();
+        attackable.EndAttack();
     }
 }

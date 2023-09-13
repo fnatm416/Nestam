@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
 //AI를 가지고 플레이어를 공격하는 적
-public class Monster : MonoBehaviour, IAttackable
+public class Monster : MonoBehaviour, IAttackable, IHittable
 {
+    #region IAttackable
     public bool comboAttack { get; set; }
+    public string targetTag { get; set; }
     public void EndAttack()
     {
         ChangeState(State.Idle);
@@ -18,6 +20,14 @@ public class Monster : MonoBehaviour, IAttackable
         yield return new WaitForSeconds(attackDelay);
         canAttack = true;
     }
+    #endregion
+
+    #region IHittable
+    public void GetHit(float damage)
+    {
+        health -= damage;
+    }
+    #endregion
 
     [Header("Controll")]
     public float rotateSpeed;   //캐릭터 회전속도
@@ -44,7 +54,6 @@ public class Monster : MonoBehaviour, IAttackable
         Dash
     }
     [SerializeField] State state;
-    [SerializeField] string targetTag;
     [SerializeField] GameObject target;
 
     void Start()
@@ -113,7 +122,6 @@ public class Monster : MonoBehaviour, IAttackable
                     {
                         if (TargetDisatance() <= attackRange)
                         {
-                            print("range");
                             if (canAttack)
                             {
                                 canAttack = false;
@@ -176,6 +184,7 @@ public class Monster : MonoBehaviour, IAttackable
         this.dashTime = character.dashTime;
         this.dashDelay = character.dashDelay;
         canDash = true;
+        targetTag = "Player";
     }
 
     void AddGravity()

@@ -4,19 +4,29 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 
 //사용자가 플레이하는 플레이어
-public class Player : MonoBehaviour, IAttackable
+public class Player : MonoBehaviour, IAttackable, IHittable
 {
+    #region IAttackable
     public bool comboAttack { get; set; }
-    public void EndAttack() 
-    { 
-        ChangeState(State.Idle); 
-        StartCoroutine(AttackDelay()); 
+    public string targetTag { get; set; }
+    public void EndAttack()
+    {
+        ChangeState(State.Idle);
+        StartCoroutine(AttackDelay());
     }
     public IEnumerator AttackDelay()
     {
         yield return new WaitForSeconds(attackDelay);
         canAttack = true;
     }
+    #endregion
+
+    #region IHittable
+    public void GetHit(float damage)
+    {
+        health -= damage;
+    }
+    #endregion
 
     [Header("Controll")]
     public float minAngle;  //마우스 최소각도
@@ -54,7 +64,6 @@ public class Player : MonoBehaviour, IAttackable
         Dash
     }
     State state;
-    [SerializeField] LayerMask targetLayer;
 
     void Start()
     {
@@ -220,6 +229,7 @@ public class Player : MonoBehaviour, IAttackable
         this.dashTime = character.dashTime;       
         this.dashDelay = character.dashDelay;       
         canDash = true;
+        targetTag = "Monster";
     }
 
     void AddGravity()
