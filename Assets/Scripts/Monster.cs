@@ -58,17 +58,6 @@ public class Monster : MonoBehaviour, IAttackable
         UpdateState();
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (state == State.Attack)
-        {
-            if (other.gameObject == target)
-            {
-                comboAttack = false;
-            }
-        }
-    }
-
     #region FSM
     public void ChangeState(State newState)
     {
@@ -115,8 +104,7 @@ public class Monster : MonoBehaviour, IAttackable
         {
             case State.Idle:
                 {
-                    if (canAttack)
-                        FindTarget();
+                    FindTarget();
                     break;
                 }
             case State.Move:
@@ -125,6 +113,7 @@ public class Monster : MonoBehaviour, IAttackable
                     {
                         if (TargetDisatance() <= attackRange)
                         {
+                            print("range");
                             if (canAttack)
                             {
                                 canAttack = false;
@@ -133,10 +122,10 @@ public class Monster : MonoBehaviour, IAttackable
                         }
                         else
                         {
-                            if (TargetDisatance() > dashDistance && canDash) 
+                            if (TargetDisatance() > dashDistance && canDash)
                             {
                                 canDash = false;
-                                ChangeState(State.Dash); 
+                                ChangeState(State.Dash);
                             }
                             else { MoveToTarget(); }
                         }
@@ -180,6 +169,7 @@ public class Monster : MonoBehaviour, IAttackable
         this.health = character.health;
         this.power = character.power;
         this.speed = character.speed;
+        this.attackRange = character.attackRange;
         this.attackDelay = character.attackDelay;
         canAttack = true;
         this.dashDistance = character.dashDistance;

@@ -24,7 +24,7 @@ public class Character : MonoBehaviour
         owner = transform.parent.GetComponent<IAttackable>();
     }
 
-    public virtual void Attack()
+    public void Attack()
     {
         PlayAnimation("Attack");
     }
