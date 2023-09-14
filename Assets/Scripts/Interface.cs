@@ -15,7 +15,6 @@ public interface IAttackable
 public interface IHittable
 {
     //공격당하는 개체
-    public bool isDie { get; set; }
     public float hitPoint { get; set; } //계속쌓이고, GetHit하거나 시간지나면 초기화
     public bool recovery { get; set; }  //true인동안 hitPoint가 쌓이지않음
     public void GetDamage(float damage);

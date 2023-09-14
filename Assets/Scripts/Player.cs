@@ -23,28 +23,30 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     #endregion
 
     #region IHittable
-    public bool isDie { get; set; }
-    public float hitPoint { get; set; }
+    private float _hitPoint;
+    public float hitPoint
+    {
+        get { return _hitPoint; }
+        set
+        {
+            _hitPoint = value;
+            if (hitPoint >= GameManager.GetHitDamage)
+            {
+                _hitPoint = 0;
+                ChangeState(State.Hit);
+            }
+        }
+    }
     public bool recovery { get; set; }
     public void GetDamage(float damage)
     {
-        if (isDie == false)
+        if (recovery == false)
         {
-            health -= damage;
-
-            if (recovery == false)
-            {
-                hitPoint += damage;
-                StopCoroutine("HitDelay");
-                StartCoroutine("HitDelay");
-                if (hitPoint >= GameManager.GetHitDamage)
-                {
-                    hitPoint = 0;
-                    StopCoroutine("HitDelay");
-                    ChangeState(State.Hit);
-                }
-            }
+            hitPoint += damage;
+            StopCoroutine("HitDelay");
+            StartCoroutine("HitDelay");
         }
+        health -= damage;
     }
 
     public IEnumerator HitDelay()
@@ -55,11 +57,8 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
     public void EndHit()
     {
-        canAttack = true;
-        canDash = true;
-        hitPoint = 0;
         ChangeState(State.Idle);
-        StartCoroutine(HitRecovery());  
+        StartCoroutine(HitRecovery());
     }
     public IEnumerator HitRecovery()
     {
@@ -67,15 +66,15 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         recovery = false;
     }
     #endregion
+
+    [Header("Controll")]
     public float minAngle;  //마우스 최소각도
     public float maxAngle;  //마우스 최대각도
     public float sensitivity;   //마우스 감도
     public float rotateSpeed;   //캐릭터 회전속도
 
     [Header("Component")]
-    [SerializeField] GameObject cameraRoot;
-    [SerializeField] Character character;
-    [SerializeField] CharacterController controller;
+    public GameObject cameraRoot;
 
     [Header("InputSystem")]
     public Vector2 inputVec;
@@ -84,7 +83,8 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public bool attack;
     public bool dash;
 
-    
+    [SerializeField] Character character;
+    [SerializeField] CharacterController controller;
     [SerializeField] float health;
     [SerializeField] float power;
     [SerializeField] float speed;
@@ -137,6 +137,8 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         {
             case State.Idle:
                 {
+                    canAttack = true;
+                    canDash = true;
                     character.PlayAnimation("Move", false);
                     break;
                 }
@@ -169,7 +171,6 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                 }
             case State.Die:
                 {
-                    isDie = true;
                     character.PlayAnimation("Die");
                     break;
                 }
@@ -258,10 +259,6 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                     break;
                 }
             case State.Dash:
-                {
-                    break;
-                }
-            case State.Hit:
                 {
                     break;
                 }
