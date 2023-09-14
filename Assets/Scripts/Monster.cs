@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
@@ -23,15 +24,55 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     #endregion
 
     #region IHittable
-    public void GetHit(float damage)
+    public bool isDie { get; set; }
+    public float hitPoint { get; set; }
+    public bool recovery { get; set; }
+
+    public void GetDamage(float damage)
     {
-        health -= damage;
+        if (isDie == false)
+        {
+            health -= damage;
+
+            if (recovery == false)
+            {
+                hitPoint += damage;
+                StopCoroutine("HitDelay");
+                StartCoroutine("HitDelay");
+                if (hitPoint >= GameManager.GetHitDamage)
+                {
+                    hitPoint = 0;
+                    StopCoroutine("HitDelay");
+                    ChangeState(State.Hit);
+                }
+            }
+        }
+    }
+
+    public IEnumerator HitDelay()
+    {
+        yield return new WaitForSeconds(GameManager.HitResetTime);
+        hitPoint = 0;
+    }
+    public void EndHit()
+    {
+        canAttack = true;
+        canDash = true;
+        hitPoint = 0;
+        ChangeState(State.Idle);
+        StartCoroutine(HitRecovery());
+    }
+    public IEnumerator HitRecovery()
+    {
+        yield return new WaitForSeconds(GameManager.RecoveryTime);
+        recovery = false;
     }
     #endregion
 
     [Header("Controll")]
     public float rotateSpeed;   //캐릭터 회전속도
 
+    [Header("Component")]
     [SerializeField] Character character;
     [SerializeField] CharacterController controller;
 
@@ -52,6 +93,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         Move,
         Attack,
         Dash,
+        Hit,
         Die
     }
     [SerializeField] State state;
@@ -84,6 +126,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         {
             case State.Idle:
                 {
+                    canAttack = true;
                     character.PlayAnimation("Move", false);
                     break;
                 }
@@ -105,8 +148,15 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     StartCoroutine(Dash());
                     break;
                 }
+            case State.Hit:
+                {
+                    recovery = true;
+                    character.PlayAnimation("Hit");
+                    break;
+                }
             case State.Die:
                 {
+                    isDie = true;
                     character.PlayAnimation("Die");
                     break;
                 }
@@ -115,8 +165,18 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
 
     public void UpdateState()
     {
+        //자신이 죽음
         if (health <= 0)
             ChangeState(State.Die);
+        //타겟이 죽음
+        else if (target !=null && target.GetComponent<IHittable>() != null)
+        {
+            if (target.GetComponent<IHittable>().isDie)
+            {
+                target = null;
+                ChangeState(State.Idle);
+            }
+        }
 
         switch (state)
         {
@@ -153,7 +213,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                 }
             case State.Attack:
                 {
-                    if (TargetDisatance() <= character.attackRange) 
+                    if (TargetDisatance() <= character.attackRange)
                     {
                         if (comboAttack == false)
                         {
@@ -168,6 +228,10 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     break;
                 }
             case State.Dash:
+                {
+                    break;
+                }
+            case State.Hit:
                 {
                     break;
                 }
@@ -223,6 +287,15 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
             if (obj.tag == targetTag)
             {
                 target = obj;
+                if (target.GetComponent<IHittable>() != null)
+                {
+                    if (target.GetComponent<IHittable>().isDie)
+                    {
+                        target = null;
+                        return;
+                    }
+                }
+
                 ChangeState(State.Move);
                 return;
             }

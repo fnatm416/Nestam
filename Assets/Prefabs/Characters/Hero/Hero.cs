@@ -17,7 +17,7 @@ public class Hero : Character
         foreach (Collider collider in hitColliders)
         {
             if (collider.CompareTag(attackable.targetTag))
-                collider.GetComponent<IHittable>().GetHit(power);
+                collider.GetComponent<IHittable>().GetDamage(power);
         }
     }
 

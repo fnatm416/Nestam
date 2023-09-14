@@ -16,12 +16,14 @@ public class Character : MonoBehaviour
     public float attackDelay;
 
     protected IAttackable attackable;
+    protected IHittable hittable;
     protected Animator animator;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         attackable = transform.parent.GetComponent<IAttackable>();
+        hittable = transform.parent.GetComponent<IHittable>();
     }
 
     public virtual void Attack()
@@ -36,5 +38,10 @@ public class Character : MonoBehaviour
     public void EndAttack()
     {
         attackable.EndAttack();
+    }
+
+    public void EndHit()
+    {
+        hittable.EndHit();
     }
 }

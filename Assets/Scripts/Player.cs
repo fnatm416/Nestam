@@ -23,20 +23,59 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     #endregion
 
     #region IHittable
-    public void GetHit(float damage)
+    public bool isDie { get; set; }
+    public float hitPoint { get; set; }
+    public bool recovery { get; set; }
+    public void GetDamage(float damage)
     {
-        health -= damage;
+        if (isDie == false)
+        {
+            health -= damage;
+
+            if (recovery == false)
+            {
+                hitPoint += damage;
+                StopCoroutine("HitDelay");
+                StartCoroutine("HitDelay");
+                if (hitPoint >= GameManager.GetHitDamage)
+                {
+                    hitPoint = 0;
+                    StopCoroutine("HitDelay");
+                    ChangeState(State.Hit);
+                }
+            }
+        }
+    }
+
+    public IEnumerator HitDelay()
+    {
+        yield return new WaitForSeconds(GameManager.HitResetTime);
+        hitPoint = 0;
+    }
+
+    public void EndHit()
+    {
+        canAttack = true;
+        canDash = true;
+        hitPoint = 0;
+        ChangeState(State.Idle);
+        StartCoroutine(HitRecovery());  
+    }
+    public IEnumerator HitRecovery()
+    {
+        yield return new WaitForSeconds(GameManager.RecoveryTime);
+        recovery = false;
     }
     #endregion
-
-    [Header("Controll")]
     public float minAngle;  //마우스 최소각도
     public float maxAngle;  //마우스 최대각도
     public float sensitivity;   //마우스 감도
     public float rotateSpeed;   //캐릭터 회전속도
 
     [Header("Component")]
-    public GameObject cameraRoot;
+    [SerializeField] GameObject cameraRoot;
+    [SerializeField] Character character;
+    [SerializeField] CharacterController controller;
 
     [Header("InputSystem")]
     public Vector2 inputVec;
@@ -45,8 +84,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public bool attack;
     public bool dash;
 
-    [SerializeField] Character character;
-    [SerializeField] CharacterController controller;
+    
     [SerializeField] float health;
     [SerializeField] float power;
     [SerializeField] float speed;
@@ -63,6 +101,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         Move,
         Attack,
         Dash,
+        Hit,
         Die
     }
     State state;
@@ -98,7 +137,6 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         {
             case State.Idle:
                 {
-                    attack = false;
                     character.PlayAnimation("Move", false);
                     break;
                 }
@@ -123,8 +161,15 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                     StartCoroutine(Dash());
                     break;
                 }
+            case State.Hit:
+                {
+                    recovery = true;
+                    character.PlayAnimation("Hit");
+                    break;
+                }
             case State.Die:
                 {
+                    isDie = true;
                     character.PlayAnimation("Die");
                     break;
                 }
@@ -213,6 +258,10 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                     break;
                 }
             case State.Dash:
+                {
+                    break;
+                }
+            case State.Hit:
                 {
                     break;
                 }
