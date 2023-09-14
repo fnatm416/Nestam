@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
+using static UnityEngine.UI.GridLayoutGroup;
 
 //사용자가 플레이하는 플레이어
 public class Player : MonoBehaviour, IAttackable, IHittable
@@ -194,14 +195,19 @@ public class Player : MonoBehaviour, IAttackable, IHittable
             case State.Attack:
                 {
                     //대쉬
-                    if (dash)
-                    {
-                        dash = false;
-                    }
+                    if (dash) { dash = false; }
                     else if (attack)
                     {
                         attack = false;
-                        comboAttack = true;
+                        if (comboAttack == false)
+                        {
+                            comboAttack = true;
+                            //플레이어가 공격시 바라볼 방향을 지정
+                            Vector3 inputDirection = new Vector3(inputVec.x, 0, inputVec.y);
+                            Vector3 cameraForward = new Vector3(cameraRoot.transform.forward.x, 0, cameraRoot.transform.forward.z);
+                            transform.forward = (inputDirection == Vector3.zero) ?
+                                transform.forward : Quaternion.LookRotation(cameraForward) * inputDirection;
+                        }
                     }
 
                     break;

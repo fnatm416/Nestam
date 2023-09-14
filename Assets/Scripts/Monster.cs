@@ -153,7 +153,16 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                 }
             case State.Attack:
                 {
-                    if (TargetDisatance() <= character.attackRange) { comboAttack = true; }
+                    if (TargetDisatance() <= character.attackRange) 
+                    {
+                        if (comboAttack == false)
+                        {
+                            comboAttack = true;
+                            //플레이어가 공격시 바라볼 방향을 지정
+                            Vector3 targetDirection = (target.transform.position - transform.position).normalized;
+                            transform.forward = targetDirection;
+                        }
+                    }
                     else { comboAttack = false; }
 
                     break;
