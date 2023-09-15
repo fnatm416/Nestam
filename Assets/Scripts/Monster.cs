@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
@@ -23,17 +24,37 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     #endregion
 
     #region IHittable
+    public bool isDie { get; set; }
     public float hitPoint { get; set; }
     public bool recovery { get; set; }
     public void GetDamage(float damage)
     {
+        if (isDie)
+            return;
+
+        health -= damage;
+
+        if (health <= 0)
+        {
+            isDie = true;
+            ChangeState(State.Die);
+        }
+
         if (recovery == false)
         {
+            StopCoroutine(HitDelay());
+
             hitPoint += damage;
-            StopCoroutine("HitDelay");
-            StartCoroutine("HitDelay");
+
+            if (hitPoint >= GameManager.GetHitDamage)
+            {
+                hitPoint = 0;
+                ChangeState(State.Hit);
+                return;
+            }
+
+            StartCoroutine(HitDelay());
         }
-        health -= damage;
     }
 
     public IEnumerator HitDelay()
@@ -43,6 +64,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     }
     public void EndHit()
     {
+        canAttack = true;
         ChangeState(State.Idle);
         StartCoroutine(HitRecovery());
     }
@@ -184,7 +206,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                 }
             case State.Attack:
                 {
-                    if (TargetDisatance() <= character.attackRange) 
+                    if (TargetDisatance() <= character.attackRange)
                     {
                         if (comboAttack == false)
                         {

@@ -23,30 +23,38 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     #endregion
 
     #region IHittable
-    private float _hitPoint;
-    public float hitPoint
-    {
-        get { return _hitPoint; }
-        set
-        {
-            _hitPoint = value;
-            if (hitPoint >= GameManager.GetHitDamage)
-            {
-                _hitPoint = 0;
-                ChangeState(State.Hit);
-            }
-        }
-    }
+    public bool isDie { get; set; }
+    public float hitPoint { get; set; }
     public bool recovery { get; set; }
     public void GetDamage(float damage)
     {
+        if (isDie)
+            return;
+
+        health -= damage;
+        if (health <= 0)
+        {
+            isDie = true;
+            ChangeState(State.Die); 
+        }
+
+        health -= damage;
+
         if (recovery == false)
         {
+            StopCoroutine(HitDelay());
+
             hitPoint += damage;
-            StopCoroutine("HitDelay");
-            StartCoroutine("HitDelay");
+
+            if (hitPoint >= GameManager.GetHitDamage)
+            {
+                hitPoint = 0;
+                ChangeState(State.Hit);
+                return;
+            }
+            
+            StartCoroutine(HitDelay());
         }
-        health -= damage;
     }
 
     public IEnumerator HitDelay()
@@ -57,6 +65,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
     public void EndHit()
     {
+        canAttack = true;
         ChangeState(State.Idle);
         StartCoroutine(HitRecovery());
     }
@@ -137,8 +146,6 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         {
             case State.Idle:
                 {
-                    canAttack = true;
-                    canDash = true;
                     character.PlayAnimation("Move", false);
                     break;
                 }

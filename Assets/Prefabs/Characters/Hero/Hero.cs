@@ -4,31 +4,19 @@ using UnityEngine;
 
 public class Hero : Character
 {
-    [SerializeField] BoxCollider sword;
+    [SerializeField] Collider hitBox;
+    [SerializeField] ParticleSystem trail;
 
-    public void Hit()
+    protected override void Awake()
     {
-        Vector3 position = sword.transform.position + sword.transform.rotation * sword.center;
-        Quaternion rotation = sword.transform.rotation;
-        Vector3 size = sword.size * 0.5f;
-
-        Collider[] hitColliders = Physics.OverlapBox(position, size, rotation);
-
-        foreach (Collider collider in hitColliders)
-        {
-            if (collider.CompareTag(attackable.targetTag))
-                collider.GetComponent<IHittable>().GetDamage(power);
-        }
+        base.Awake();
+        hitBox.enabled = false;
+        trail.Stop();
     }
 
-    //void OnDrawGizmos()
-    //{
-    //    Vector3 position = sword.transform.position + sword.transform.rotation * sword.center;
-    //    Quaternion rotation = sword.transform.rotation;
-    //    Vector3 size = sword.size;
+    public void StartHitbox() { hitBox.enabled = true; }    //히트박스 활성화
+    public void EndHitbox() { hitBox.enabled = false; }     //히트박스 비활성화
 
-    //    Gizmos.color = Color.green;
-    //    Gizmos.matrix = Matrix4x4.TRS(position, rotation, size);
-    //    Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-    //}
+    public void StartTrail() { trail.Play(); }  //트레일 활성화
+    public void EndTrail() { trail.Stop(); }    //트레일 비활성화
 }
