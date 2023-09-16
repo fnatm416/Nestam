@@ -76,18 +76,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19bca8e89084ff14183da8689942f25a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minAngle: -10
-  maxAngle: 30
-  sensitivity: 0.25
-  rotateSpeed: 10
+  MinAngle: -10
+  MaxAngle: 30
+  Sensitivity: 0.25
+  RotateSpeed: 10
   cameraRoot: {fileID: 4691611952061537313}
+  InputVec: {x: 0, y: 0}
+  MouseX: 0
+  MouseY: 0
+  AttackPress: 0
+  DashPress: 0
   character: {fileID: 0}
   controller: {fileID: 0}
-  inputVec: {x: 0, y: 0}
-  mouseX: 0
-  mouseY: 0
-  attack: 0
-  dash: 0
   health: 0
   power: 0
   speed: 0

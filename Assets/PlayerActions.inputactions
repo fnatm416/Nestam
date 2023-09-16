@@ -265,17 +265,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f7d9244b-6bf1-4f09-ac15-894dc199d48d",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "eb849b60-2543-4efb-9ef6-6f83079f995a",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",

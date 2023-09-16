@@ -10,12 +10,12 @@ public class AttackState : StateMachineBehaviour
     {
         owner = animator.transform.parent.GetComponent<IAttackable>();
         character = animator.GetComponent<Character>();
-        owner.comboAttack = false;
+        owner.ComboAttack = false;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.comboAttack)
+        if (owner.ComboAttack)
         {
             character.PlayAnimation("Attack");
             return;

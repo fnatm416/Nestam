@@ -328,7 +328,7 @@ MonoBehaviour:
   dashTime: 0.25
   dashDelay: 1.5
   attackRange: 1.5
-  attackDelay: 0
+  attackDelay: 1
   hitBox: {fileID: 1346343318984619104}
   trail: {fileID: 1304628007386349422}
 --- !u!1 &945257033844244353
@@ -514,6 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 7436121553593375305}
+  effect: {fileID: 4425723116287538761, guid: 9c9b72b339e1fde4ea4f9b7a86ef7546, type: 3}
 --- !u!1 &1197975758788423389
 GameObject:
   m_ObjectHideFlags: 0

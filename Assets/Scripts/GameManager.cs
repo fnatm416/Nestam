@@ -5,22 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
 
     public const float GetHitDamage = 20.0f;
     public const float HitResetTime = 3.0f;
     public const float RecoveryTime = 2.0f;
 
-    public SceneAsset[] scenes;
+    public SceneAsset[] Scenes;
 
-    public Player player;
-    public Character playerCharacter;
+    public Player Player;
+    public Character PlayerCharacter;
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -34,14 +34,14 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == scenes[2].name)
+        if(scene.name == Scenes[2].name)
         {
-            player = Instantiate(player);
-            playerCharacter = Instantiate(playerCharacter, player.transform, false);
-            player.transform.position = GameObject.Find("PlayerPosition").transform.position;
-            GameObject.FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform.Find("CameraRoot");
+            Player = Instantiate(Player);
+            PlayerCharacter = Instantiate(PlayerCharacter, Player.transform, false);
+            Player.transform.position = GameObject.Find("PlayerPosition").transform.position;
+            GameObject.FindObjectOfType<CinemachineVirtualCamera>().Follow = Player.transform.Find("CameraRoot");
         }
     }
     #region PlayScene
@@ -51,13 +51,13 @@ public class GameManager : MonoBehaviour
     #region SelectScene
     public void SelectCharacter(Character character)
     {
-        playerCharacter = character;
+        PlayerCharacter = character;
     }
     #endregion
 
 
     public void MoveScene(int index)
     {
-        SceneManager.LoadScene(scenes[index].name);
+        SceneManager.LoadScene(Scenes[index].name);
     }
 }

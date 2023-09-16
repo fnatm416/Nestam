@@ -1,15 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
-using static UnityEngine.UI.GridLayoutGroup;
+
 
 //사용자가 플레이하는 플레이어
 public class Player : MonoBehaviour, IAttackable, IHittable
 {
     #region IAttackable
-    public bool comboAttack { get; set; }
-    public string targetTag { get; set; }
+    public bool ComboAttack { get; set; }
+    public string TargetTag { get; set; }
     public void EndAttack()
     {
         ChangeState(State.Idle);
@@ -23,44 +22,44 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     #endregion
 
     #region IHittable
-    public bool isDie { get; set; }
-    public float hitPoint { get; set; }
-    public bool recovery { get; set; }
+    public bool IsDie { get; set; }
+    public float HitPoint { get; set; }
+    public bool Recovery { get; set; }
     public void GetDamage(float damage)
     {
-        if (isDie)
+        if (IsDie)
             return;
 
         health -= damage;
+
         if (health <= 0)
         {
-            isDie = true;
-            ChangeState(State.Die); 
+            IsDie = true;
+            ChangeState(State.Die);
+            return;
         }
 
-        health -= damage;
-
-        if (recovery == false)
+        if (Recovery == false)
         {
-            StopCoroutine(HitDelay());
+            StopCoroutine(HitTimer());
 
-            hitPoint += damage;
+            HitPoint += damage;
 
-            if (hitPoint >= GameManager.GetHitDamage)
+            if (HitPoint >= GameManager.GetHitDamage)
             {
-                hitPoint = 0;
+                HitPoint = 0;
                 ChangeState(State.Hit);
                 return;
             }
-            
-            StartCoroutine(HitDelay());
+
+            StartCoroutine(HitTimer());
         }
     }
 
-    public IEnumerator HitDelay()
+    public IEnumerator HitTimer()
     {
         yield return new WaitForSeconds(GameManager.HitResetTime);
-        hitPoint = 0;
+        HitPoint = 0;
     }
 
     public void EndHit()
@@ -72,38 +71,38 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public IEnumerator HitRecovery()
     {
         yield return new WaitForSeconds(GameManager.RecoveryTime);
-        recovery = false;
+        Recovery = false;
     }
     #endregion
 
     [Header("Controll")]
-    public float minAngle;  //마우스 최소각도
-    public float maxAngle;  //마우스 최대각도
-    public float sensitivity;   //마우스 감도
-    public float rotateSpeed;   //캐릭터 회전속도
+    public float MinAngle;  //마우스 최소각도
+    public float MaxAngle;  //마우스 최대각도
+    public float Sensitivity;   //마우스 감도
+    public float RotateSpeed;   //캐릭터 회전속도
 
     [Header("Component")]
-    public GameObject cameraRoot;
-
-    [Header("InputSystem")]
-    public Vector2 inputVec;
-    public float mouseX;
-    public float mouseY;
-    public bool attack;
-    public bool dash;
-
+    [SerializeField] GameObject cameraRoot;
     [SerializeField] Character character;
     [SerializeField] CharacterController controller;
-    [SerializeField] float health;
-    [SerializeField] float power;
-    [SerializeField] float speed;
+
+    [Header("InputSystem")]
+    public Vector2 InputVec;
+    public float MouseX;
+    public float MouseY;
+    public bool AttackPress;
+    public bool DashPress;
+
+    [Header("PlayerInfo")] 
+    public float health;
+    public float power;
+    public float speed;
     [SerializeField] float attackDelay;
     [SerializeField] float dashDistance;
     [SerializeField] float dashTime;
     [SerializeField] float dashDelay;
     [SerializeField] bool canAttack;
     [SerializeField] bool canDash;
-
     public enum State
     {
         Idle,
@@ -113,7 +112,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         Hit,
         Die
     }
-    State state;
+    [SerializeField] State state;
 
     void Start()
     {
@@ -137,6 +136,10 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         if (state != newState)
         {
             state = newState;
+
+            if (state == State.Move) { character.PlayAnimation("Move", true); }
+            else { character.PlayAnimation("Move", false); }
+
             InitState(state);
         }
     }
@@ -146,39 +149,42 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         {
             case State.Idle:
                 {
-                    character.PlayAnimation("Move", false);
                     break;
                 }
             case State.Move:
                 {
-                    character.PlayAnimation("Move", true);
                     break;
                 }
             case State.Attack:
                 {
-                    attack = false;
-                    comboAttack = false;
+                    AttackPress = false;
+                    ComboAttack = false;
+                    controller.Move(Vector3.zero);
+                    character.Attack();
 
-                    character.PlayAnimation("Move", false);
-                    Attack();
                     break;
                 }
             case State.Dash:
                 {
-                    dash = false;
-                    character.PlayAnimation("Move", false);
+                    DashPress = false;
                     StartCoroutine(Dash());
+
                     break;
                 }
             case State.Hit:
                 {
-                    recovery = true;
+                    Recovery = true;
+                    character.OnInterrupt();
                     character.PlayAnimation("Hit");
+
                     break;
                 }
             case State.Die:
                 {
+                    StopCoroutine(HitTimer());
+                    character.OnInterrupt();
                     character.PlayAnimation("Die");
+
                     break;
                 }
         }
@@ -194,69 +200,78 @@ public class Player : MonoBehaviour, IAttackable, IHittable
             case State.Idle:
                 {
                     // 공격
-                    if (canAttack && attack)
+                    if (canAttack && AttackPress)
                     {
                         canAttack = false;
                         ChangeState(State.Attack);
+                        break;
                     }
+                    else { AttackPress = false; }
+
+
                     // 이동
-                    else if (inputVec != Vector2.zero)
+                    if (InputVec != Vector2.zero)
                     {
                         ChangeState(State.Move);
+                        break;
                     }
+
                     //대쉬
-                    else if (dash)
+                    if (canDash && DashPress)
                     {
-                        if (canDash)
-                        {
-                            canDash = false;
-                            ChangeState(State.Dash);
-                        }
-                        else { dash = false; }
+                        canDash = false;
+                        ChangeState(State.Dash);
                     }
+                    else { DashPress = false; }
+
                     break;
                 }
             case State.Move:
                 {
                     // 공격
-                    if (canAttack && attack)
+                    if (canAttack && AttackPress)
                     {
                         canAttack = false;
                         ChangeState(State.Attack);
+                        break;
                     }
+                    else { AttackPress = false; }
+
                     // 이동
-                    else if (inputVec == Vector2.zero)
+                    if (InputVec == Vector2.zero)
                     {
                         ChangeState(State.Idle);
+                        break;
                     }
+
                     //대쉬
-                    else if (dash)
+                    if (canDash && DashPress)
                     {
-                        if (canDash)
-                        {
-                            canDash = false;
-                            ChangeState(State.Dash);
-                        }
-                        else { dash = false; }
+                        canDash = false;
+                        ChangeState(State.Dash);
+                        break;
                     }
-                    else
-                    {
-                        Move();
-                    }
+                    else { DashPress = false; }
+
+                    Move();
+
                     break;
                 }
             case State.Attack:
                 {
                     //대쉬
-                    if (dash) { dash = false; }
-                    else if (attack)
+                    if (DashPress) { DashPress = false; }
+
+                    //공격
+                    if (AttackPress)
                     {
-                        attack = false;
-                        if (comboAttack == false)
+                        AttackPress = false;
+
+                        if (ComboAttack == false)
                         {
-                            comboAttack = true;
+                            ComboAttack = true;
                             //플레이어가 공격시 바라볼 방향을 지정
-                            Vector3 inputDirection = new Vector3(inputVec.x, 0, inputVec.y);
+                            Vector3 inputDirection = new Vector3(InputVec.x, 0, InputVec.y);
                             Vector3 cameraForward = new Vector3(cameraRoot.transform.forward.x, 0, cameraRoot.transform.forward.z);
                             transform.forward = (inputDirection == Vector3.zero) ?
                                 transform.forward : Quaternion.LookRotation(cameraForward) * inputDirection;
@@ -285,7 +300,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         character.GetComponent<CharacterController>().enabled = false;
 
         //캐릭터의 "캐릭터컨트롤러"를 참조
-        controller = gameObject.AddComponent<CharacterController>();
+        controller = this.gameObject.AddComponent<CharacterController>();
         controller.slopeLimit = 0;
         controller.center = character.GetComponent<CharacterController>().center;
         controller.radius = character.GetComponent<CharacterController>().radius;
@@ -293,16 +308,20 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
-        this.health = character.health;
-        this.power = character.power;
-        this.speed = character.speed;
-        this.attackDelay = character.attackDelay;
+        health = character.health;
+        power = character.power;
+        speed = character.speed;
+        attackDelay = character.attackDelay;
         canAttack = true;
-        this.dashDistance = character.dashDistance;
-        this.dashTime = character.dashTime;
-        this.dashDelay = character.dashDelay;
+        dashDistance = character.dashDistance;
+        dashTime = character.dashTime;
+        dashDelay = character.dashDelay;
         canDash = true;
-        targetTag = "Monster";
+
+        //인터페이스 초기화
+        TargetTag = "Monster";
+        HitPoint = 0;
+        Recovery = false;
     }
 
     void AddGravity()
@@ -315,7 +334,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     {
         //플레이어의 이동방향을 지정
         Vector3 cameraForward = new Vector3(cameraRoot.transform.forward.x, 0, cameraRoot.transform.forward.z);
-        Vector3 inputDirection = new Vector3(inputVec.x, 0, inputVec.y);
+        Vector3 inputDirection = new Vector3(InputVec.x, 0, InputVec.y);
         Vector3 targetDirection = Quaternion.LookRotation(cameraForward) * inputDirection;
 
         //플레이어의 각도 회전을 지정
@@ -328,25 +347,18 @@ public class Player : MonoBehaviour, IAttackable, IHittable
             return;
 
         //회전
-        if (inputVec != Vector2.zero)
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        if (InputVec != Vector2.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
 
         //이동
         controller.Move(targetDirection.normalized * speed * Time.deltaTime);
-    }
-
-    void Attack()
-    {
-        attack = false;
-        controller.Move(Vector3.zero);
-        character.Attack();
     }
 
     IEnumerator Dash()
     {
         character.PlayAnimation("Dash", true);
 
-        Vector3 inputDirection = new Vector3(inputVec.x, 0, inputVec.y);
+        Vector3 inputDirection = new Vector3(InputVec.x, 0, InputVec.y);
         Vector3 cameraForward = new Vector3(cameraRoot.transform.forward.x, 0, cameraRoot.transform.forward.z);
 
         transform.forward = (inputDirection == Vector3.zero) ?
@@ -364,10 +376,10 @@ public class Player : MonoBehaviour, IAttackable, IHittable
             yield return null;
         }
 
-        dash = false;
+        DashPress = false;
         character.PlayAnimation("Dash", false);
-        ChangeState(State.Idle);
         StartCoroutine(DashDelay());
+        ChangeState(State.Idle);
     }
 
     IEnumerator DashDelay()
@@ -378,31 +390,31 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
     void CameraRotation()
     {
-        mouseY = Mathf.Clamp(mouseY, minAngle, maxAngle);
+        MouseY = Mathf.Clamp(MouseY, MinAngle, MaxAngle);
 
-        cameraRoot.transform.rotation = Quaternion.Euler(mouseY, mouseX, 0f);
+        cameraRoot.transform.rotation = Quaternion.Euler(MouseY, MouseX, 0f);
     }
     #endregion
 
     #region InputSystem
     void OnMove(InputValue value)
     {
-        inputVec = value.Get<Vector2>();
+        InputVec = value.Get<Vector2>();
     }
     void OnLook(InputValue value)
     {
-        mouseX += value.Get<Vector2>().x * sensitivity;
-        mouseY -= value.Get<Vector2>().y * sensitivity;
+        MouseX += value.Get<Vector2>().x * Sensitivity;
+        MouseY -= value.Get<Vector2>().y * Sensitivity;
     }
 
     void OnAttack(InputValue value)
     {
-        attack = value.isPressed;
+        AttackPress = value.isPressed;
     }
 
     void OnDash(InputValue value)
     {
-        dash = value.isPressed;
+        DashPress = value.isPressed;
     }
     #endregion
 }

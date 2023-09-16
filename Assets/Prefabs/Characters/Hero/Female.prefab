@@ -1323,6 +1323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3346584057594091297}
+  effect: {fileID: 1527517236649021181, guid: 4a4c268ad765f6e48a130570da19bd1a, type: 3}
 --- !u!1 &4624413438938558385
 GameObject:
   m_ObjectHideFlags: 0

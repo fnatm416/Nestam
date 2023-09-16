@@ -5,7 +5,7 @@ public class ButtonHanddler : MonoBehaviour
 {
    public void SelectCharacter(Character character)
     {
-        GameManager.instance.SelectCharacter(character);
-        SceneManager.LoadScene(GameManager.instance.scenes[2].name);
+        GameManager.Instance.SelectCharacter(character);
+        SceneManager.LoadScene(GameManager.Instance.Scenes[2].name);
     }
 }

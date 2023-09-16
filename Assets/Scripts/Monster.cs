@@ -9,8 +9,8 @@ using UnityEngine.InputSystem.LowLevel;
 public class Monster : MonoBehaviour, IAttackable, IHittable
 {
     #region IAttackable
-    public bool comboAttack { get; set; }
-    public string targetTag { get; set; }
+    public bool ComboAttack { get; set; }
+    public string TargetTag { get; set; }
     public void EndAttack()
     {
         ChangeState(State.Idle);
@@ -24,43 +24,44 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     #endregion
 
     #region IHittable
-    public bool isDie { get; set; }
-    public float hitPoint { get; set; }
-    public bool recovery { get; set; }
+    public bool IsDie { get; set; }
+    public float HitPoint { get; set; }
+    public bool Recovery { get; set; }
     public void GetDamage(float damage)
     {
-        if (isDie)
+        if (IsDie)
             return;
 
         health -= damage;
 
         if (health <= 0)
         {
-            isDie = true;
+            IsDie = true;
             ChangeState(State.Die);
+            return;
         }
 
-        if (recovery == false)
+        if (Recovery == false)
         {
-            StopCoroutine(HitDelay());
+            StopCoroutine(HitTimer());
 
-            hitPoint += damage;
+            HitPoint += damage;
 
-            if (hitPoint >= GameManager.GetHitDamage)
+            if (HitPoint >= GameManager.GetHitDamage)
             {
-                hitPoint = 0;
+                HitPoint = 0;
                 ChangeState(State.Hit);
                 return;
             }
 
-            StartCoroutine(HitDelay());
+            StartCoroutine(HitTimer());
         }
     }
 
-    public IEnumerator HitDelay()
+    public IEnumerator HitTimer()
     {
         yield return new WaitForSeconds(GameManager.HitResetTime);
-        hitPoint = 0;
+        HitPoint = 0;
     }
     public void EndHit()
     {
@@ -71,27 +72,28 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     public IEnumerator HitRecovery()
     {
         yield return new WaitForSeconds(GameManager.RecoveryTime);
-        recovery = false;
+        Recovery = false;
     }
     #endregion
 
     [Header("Controll")]
     public float rotateSpeed;   //캐릭터 회전속도
 
+    [Header("Component")]
     [SerializeField] Character character;
     [SerializeField] CharacterController controller;
 
+    [Header("MonsterInfo")]
     [SerializeField] float health;
     [SerializeField] float power;
     [SerializeField] float speed;
-    [SerializeField] float attackRange;
-    [SerializeField] float attackDelay;
-    [SerializeField] float dashDistance;
-    [SerializeField] float dashTime;
-    [SerializeField] float dashDelay;
-    [SerializeField] bool canAttack;
-    [SerializeField] bool canDash;
-
+    public float attackRange;
+    public float attackDelay;
+    public float dashDistance;
+    public float dashTime;
+    public float dashDelay;
+    public bool canAttack;
+    public bool canDash;
     public enum State
     {
         Idle,
@@ -121,6 +123,10 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         if (state != newState)
         {
             state = newState;
+
+            if (state == State.Move) { character.PlayAnimation("Move", true); }
+            else { character.PlayAnimation("Move", false); }
+
             InitState(state);
         }
     }
@@ -131,36 +137,40 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         {
             case State.Idle:
                 {
-                    character.PlayAnimation("Move", false);
                     break;
                 }
             case State.Move:
                 {
-                    character.PlayAnimation("Move", true);
                     break;
                 }
             case State.Attack:
                 {
-                    character.PlayAnimation("Move", false);
+                    canAttack = false;
                     controller.Move(Vector3.zero);
                     character.Attack();
+
                     break;
                 }
             case State.Dash:
                 {
-                    character.PlayAnimation("Move", false);
                     StartCoroutine(Dash());
+
                     break;
                 }
             case State.Hit:
                 {
-                    recovery = true;
+                    Recovery = true;
+                    character.OnInterrupt();
                     character.PlayAnimation("Hit");
+
                     break;
                 }
             case State.Die:
                 {
+                    StopCoroutine(HitTimer());
+                    character.OnInterrupt();
                     character.PlayAnimation("Die");
+
                     break;
                 }
         }
@@ -175,32 +185,47 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         {
             case State.Idle:
                 {
-                    FindTarget();
+                    target = FindTarget();
+                    if (target != null) 
+                    { 
+                        //공격
+                        if (TargetDisatance() > attackRange) { ChangeState(State.Move); }
+                        //이동
+                        else { if (canAttack) { ChangeState(State.Attack); } }
+                    }
+
                     break;
                 }
             case State.Move:
                 {
-                    if (target)
+                    //대기
+                    if (FindTarget() == null)
                     {
-                        if (TargetDisatance() <= attackRange)
+                        target = null;
+                        ChangeState(State.Idle);
+                        break;
+                    }
+                    
+                    if (TargetDisatance() <= attackRange)
+                    {
+                        //공격
+                        if (canAttack)
                         {
-                            if (canAttack)
-                            {
-                                canAttack = false;
-                                ChangeState(State.Attack);
-                            }
+                            ChangeState(State.Attack);
                         }
                         else
-                        {
-                            if (TargetDisatance() > dashDistance && canDash)
-                            {
-                                canDash = false;
-                                ChangeState(State.Dash);
-                            }
-                            else { MoveToTarget(); }
-                        }
+                            ChangeState(State.Idle);
                     }
-                    else { ChangeState(State.Idle); }
+                    else
+                    {
+                        //대쉬
+                        if (canDash)
+                        {
+                            canDash = false;
+                            ChangeState(State.Dash);
+                        }
+                        else { MoveToTarget(); }
+                    }
 
                     break;
                 }
@@ -208,15 +233,15 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                 {
                     if (TargetDisatance() <= character.attackRange)
                     {
-                        if (comboAttack == false)
+                        if (FindTarget() != null && ComboAttack == false)
                         {
-                            comboAttack = true;
+                            ComboAttack = true;
                             //플레이어가 공격시 바라볼 방향을 지정
                             Vector3 targetDirection = (target.transform.position - transform.position).normalized;
                             transform.forward = targetDirection;
                         }
                     }
-                    else { comboAttack = false; }
+                    else { ComboAttack = false; }
 
                     break;
                 }
@@ -247,19 +272,22 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         controller.height = character.GetComponent<CharacterController>().height;
 
         //상태 및 스텟 초기화
-        //상태 및 스텟 초기화
         ChangeState(State.Idle);
-        this.health = character.health;
-        this.power = character.power;
-        this.speed = character.speed;
-        this.attackRange = character.attackRange;
-        this.attackDelay = character.attackDelay;
+        health = character.health;
+        power = character.power;
+        speed = character.speed;
+        attackRange = character.attackRange;
+        attackDelay = character.attackDelay;
         canAttack = true;
-        this.dashDistance = character.dashDistance;
-        this.dashTime = character.dashTime;
-        this.dashDelay = character.dashDelay;
+        dashDistance = character.dashDistance;
+        dashTime = character.dashTime;
+        dashDelay = character.dashDelay;
         canDash = true;
-        targetTag = "Player";
+
+        //인터페이스 초기화
+        TargetTag = "Player";
+        HitPoint = 0;
+        Recovery = false;
     }
 
     void AddGravity()
@@ -268,18 +296,23 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
             controller.Move(new Vector3(0, Physics.gravity.y, 0));
     }
 
-    void FindTarget()
+    GameObject FindTarget()
     {
         GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
         foreach (GameObject obj in objects)
         {
-            if (obj.tag == targetTag)
+            if (obj.tag == TargetTag)
             {
-                target = obj;
-                ChangeState(State.Move);
-                return;
+                //타겟이 죽으면 null
+                IHittable iHittable = obj.GetComponent<IHittable>();
+                bool targetDie = (iHittable != null && iHittable.IsDie) ? true : false;
+                if (targetDie) { return null; }
+
+                return obj;
             }
         }
+
+        return null;
     }
 
     float TargetDisatance()
