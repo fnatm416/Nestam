@@ -3,14 +3,16 @@ using UnityEngine;
 //능력치와 특성을 가진 캐릭터들을 상속시켜서 사용
 public abstract class Character : MonoBehaviour
 {
+    public Sprite Thumbnail;
+
     [Header("Stat")]
-    public float health;
-    public float power;
-    public float speed;
+    public float Health;
+    public float Power;
+    public float Speed;
     //대쉬
-    public float dashDistance;
-    public float dashTime;
-    public float dashDelay;
+    public float DashDistance;
+    public float DashTime;
+    public float DashDelay;
     //공격
     public float attackRange;
     public float attackDelay;

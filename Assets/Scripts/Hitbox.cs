@@ -22,7 +22,7 @@ public class Hitbox : MonoBehaviour
         {
             if (other.CompareTag(attacker.TargetTag))
             {
-                hitter.GetDamage(character.power);
+                hitter.GetDamage(character.Power);
                 GameObject effect = PoolManager.Instance.Get(this.effect.name);
 
                 effect.transform.position = other.ClosestPointOnBounds(transform.position);

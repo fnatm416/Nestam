@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5317,8 +5317,12 @@ MonoBehaviour:
   - {fileID: 102900000, guid: 1325eba756ff26c46bf2abecc53ced63, type: 3}
   - {fileID: 102900000, guid: 6b42d7e8cf733d44eaa4f209bd540a9d, type: 3}
   - {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
-  Player: {fileID: 772113065105268354, guid: 7187b90332cd662438501aef8edd1653, type: 3}
+  PlayerPrefab: {fileID: 772113065105268354, guid: 7187b90332cd662438501aef8edd1653, type: 3}
+  MonsterPrefab: {fileID: 5609184865355943475, guid: c6763303cbff52e43822bb068f9bb7ee, type: 3}
   PlayerCharacter: {fileID: 0}
+  Stage: 0
+  StageDatas:
+  - {fileID: 11400000, guid: 8053fd78eeb01c64bb38cfcddfd83def, type: 2}
 --- !u!4 &734323134
 Transform:
   m_ObjectHideFlags: 0

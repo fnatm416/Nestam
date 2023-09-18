@@ -308,14 +308,14 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
-        health = character.health;
-        power = character.power;
-        speed = character.speed;
+        health = character.Health;
+        power = character.Power;
+        speed = character.Speed;
         attackDelay = character.attackDelay;
         canAttack = true;
-        dashDistance = character.dashDistance;
-        dashTime = character.dashTime;
-        dashDelay = character.dashDelay;
+        dashDistance = character.DashDistance;
+        dashTime = character.DashTime;
+        dashDelay = character.DashDelay;
         canDash = true;
 
         //인터페이스 초기화
