@@ -17,10 +17,11 @@ public class GameManager : MonoBehaviour
     public Player PlayerPrefab;
     public Monster MonsterPrefab;
 
-    [Header("State")]   
+    [Header("State")]
     public Character PlayerCharacter;
     public int Stage;
     public StageData[] StageDatas;
+    public List<Character> DefeatedMonsters;
 
     void Awake()
     {
@@ -46,20 +47,22 @@ public class GameManager : MonoBehaviour
     //    { 
     //    }
     //}
-    #region PlayScene
-    
-    #endregion
-
-    #region SelectScene
-    public void SelectCharacter(Character character)
-    {
-        PlayerCharacter = character;
-    }
-    #endregion
 
 
     public void MoveScene(int index)
     {
         SceneManager.LoadScene(Scenes[index].name);
+    }
+
+    public void AddDefeatedMonsters(StageData data)
+    {
+        //쓰러뜨린 몬스터들의 캐릭터를 중복없이 배열에 추가
+        List<Character> list = data.monsters;
+
+        foreach (Character character in list)
+        {
+            if (!list.Contains(character))
+                DefeatedMonsters.Add(character);
+        }
     }
 }

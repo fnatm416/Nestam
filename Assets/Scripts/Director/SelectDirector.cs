@@ -17,8 +17,6 @@ public class SelectDirector : MonoBehaviour
     {
         //몬스터 썸네일 적용
         ShowMonsters();
-        //캐릭터선택창 썸네일 적용
-        ShowChoice();
         //스테이지 수 표시
         StageText.text = string.Format("Stage {0}", GameManager.Instance.Stage + 1);
     }
@@ -34,16 +32,4 @@ public class SelectDirector : MonoBehaviour
                 NextMonsters[i].color = Color.white;
             }
         }
-    }
-
-    void ShowChoice()
-    {
-
-    }
-
-    public void SelectCharacter(Character character)
-    {
-        GameManager.Instance.SelectCharacter(character);
-        SceneManager.LoadScene(GameManager.Instance.Scenes[2].name);
-    }
-}
+    }}

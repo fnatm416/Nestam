@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class SelectSlot : MonoBehaviour
+public class RandomSlot : MonoBehaviour
 {
     [SerializeField] Character DefaultCharacter;
-    [SerializeField] GameObject Thumbnail;
+    [SerializeField] GameObject DefaultThumbnail;
+    [SerializeField] GameObject RandomThumbnail;
     [SerializeField] GameObject FocusFrame;
 
     void Start()
@@ -15,13 +15,15 @@ public class SelectSlot : MonoBehaviour
 
     void ShowSlot()
     {
-        if (GameManager.Instance.PlayerCharacter != null)
+        if (GameManager.Instance.Stage <= 0)
         {
-            Thumbnail.GetComponent<Image>().sprite = GameManager.Instance.PlayerCharacter.Thumbnail;
+            DefaultThumbnail.SetActive(true);
+            RandomThumbnail.SetActive(false);
         }
         else
         {
-            Thumbnail.GetComponent<Image>().sprite = this.DefaultCharacter.Thumbnail;
+            DefaultThumbnail.SetActive(false);
+            RandomThumbnail.SetActive(true);
         }
     }
 
@@ -34,16 +36,16 @@ public class SelectSlot : MonoBehaviour
     {
         GameManager gm = GameManager.Instance;
 
-        if (gm.Stage <= 0)
+        if ( gm.Stage <= 0)
         {
             GameManager.Instance.PlayerCharacter = this.DefaultCharacter;
-        }
+        }    
         else
         {
-            GameManager.Instance.PlayerCharacter = gm.PlayerCharacter;
+            int random = Random.Range(0, gm.DefeatedMonsters.Count);
+            GameManager.Instance.PlayerCharacter = gm.DefeatedMonsters[random];
         }
-
+        
         SceneManager.LoadScene(GameManager.Instance.Scenes[2].name);
-        GameManager.Instance.Stage++;
     }
 }

@@ -8,7 +8,6 @@ public class PlayDirector : MonoBehaviour
     [SerializeField] Transform playerPosition;
     [SerializeField] Transform[] monsterPositions;
 
-
     void Start()
     {
         CreatePlayer();
