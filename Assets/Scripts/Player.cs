@@ -16,7 +16,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     }
     public IEnumerator AttackDelay()
     {
-        yield return new WaitForSeconds(attackDelay);
+        yield return null;
         canAttack = true;
     }
     #endregion

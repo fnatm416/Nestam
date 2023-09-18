@@ -863,7 +863,7 @@ MonoBehaviour:
   dashTime: 0.25
   dashDelay: 1.5
   attackRange: 1.5
-  attackDelay: 0
+  attackDelay: 1
   hitBox: {fileID: 4699878268908100153}
   trail: {fileID: 2110329481171850502}
 --- !u!1 &3893080334404509017
