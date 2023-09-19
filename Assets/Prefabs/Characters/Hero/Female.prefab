@@ -857,7 +857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: 214d33854770efc4494b556237df685c, type: 3}
-  Health: 1000
+  Health: 100
   Power: 10
   Speed: 10
   DashDistance: 5
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3346584057594091297}
-  effect: {fileID: 1527517236649021181, guid: 4a4c268ad765f6e48a130570da19bd1a, type: 3}
+  effect: {fileID: 8216709111698010741, guid: b3603d920d30b3f438d72313cad85c2a, type: 3}
 --- !u!1 &4624413438938558385
 GameObject:
   m_ObjectHideFlags: 0

@@ -222,7 +222,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     else
                     {
                         //´ë½¬
-                        if (canDash)
+                        if (canDash && TargetDisatance() > (dashDistance + 0.25f))
                         {
                             canDash = false;
                             ChangeState(State.Dash);

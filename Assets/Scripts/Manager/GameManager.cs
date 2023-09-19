@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Character character in list)
         {
-            if (!list.Contains(character))
+            if (character != null && !list.Contains(character))
                 DefeatedMonsters.Add(character);
         }
     }
@@ -72,14 +72,15 @@ public class GameManager : MonoBehaviour
     public void StageClear()
     {
         //몬스터를 모두 쓰러뜨리고 승리
+        AddDefeatedMonsters(this.StageDatas[Stage]);
         Stage++;
+
         if (Stage > StageDatas.Length-1)
         {
             print("Clear");
             return;
         }
 
-        AddDefeatedMonsters(this.StageDatas[Stage]);        
         MoveScene(1);
     }
 
