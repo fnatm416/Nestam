@@ -857,8 +857,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: 214d33854770efc4494b556237df685c, type: 3}
-  Health: 100
-  Power: 1
+  Health: 1000
+  Power: 10
   Speed: 10
   DashDistance: 5
   DashTime: 0.25

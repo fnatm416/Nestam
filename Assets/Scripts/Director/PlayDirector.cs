@@ -45,6 +45,8 @@ public class PlayDirector : MonoBehaviour
             Monster monster = Instantiate(gm.MonsterPrefab);
             Instantiate(gm.StageDatas[gm.Stage].monsters[i], monster.transform, false);
             monster.transform.position = monsterPositions[i].transform.position;
+
+            gm.MonsterCount++;
         }
     }
 }

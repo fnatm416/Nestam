@@ -171,6 +171,9 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     character.OnInterrupt();
                     character.PlayAnimation("Die");
 
+                    GameManager.Instance.MonsterCount--;
+                    if (GameManager.Instance.MonsterCount<=0) { GameManager.Instance.StageClear(); }
+
                     break;
                 }
         }

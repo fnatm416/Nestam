@@ -44,6 +44,5 @@ public class SelectSlot : MonoBehaviour
         }
 
         SceneManager.LoadScene(GameManager.Instance.Scenes[2].name);
-        GameManager.Instance.Stage++;
     }
 }

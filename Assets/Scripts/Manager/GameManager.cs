@@ -1,5 +1,6 @@
 using Cinemachine;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
     public int Stage;
     public StageData[] StageDatas;
     public List<Character> DefeatedMonsters;
+
+    public int MonsterCount { get; set; }
 
     void Awake()
     {
@@ -64,5 +67,24 @@ public class GameManager : MonoBehaviour
             if (!list.Contains(character))
                 DefeatedMonsters.Add(character);
         }
+    }
+
+    public void StageClear()
+    {
+        //몬스터를 모두 쓰러뜨리고 승리
+        Stage++;
+        if (Stage > StageDatas.Length-1)
+        {
+            print("Clear");
+            return;
+        }
+
+        AddDefeatedMonsters(this.StageDatas[Stage]);        
+        MoveScene(1);
+    }
+
+    public void GameOver()
+    {
+        //HP가 0이되어 패배
     }
 }
