@@ -15,4 +15,9 @@ MonoBehaviour:
   monsters:
   - {fileID: -7268259868683276393, guid: 513496eba2b08984fa6b4667a48adb74, type: 3}
   - {fileID: 0}
+<<<<<<< Updated upstream
   - {fileID: 3945151700819944925, guid: e7a7fb0e98e4478408b4146e54d9abd0, type: 3}
+=======
+  - {fileID: 3999405523717148713, guid: 0eec1b58d0ea673409ab965b63070f55, type: 3}
+  - {fileID: 0}
+>>>>>>> Stashed changes
