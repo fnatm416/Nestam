@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 8597427330508998178}
   - component: {fileID: -921536070325444533}
   - component: {fileID: 3999405523717148713}
+  - component: {fileID: 3338879694738556663}
   m_Layer: 0
   m_Name: Bee
   m_TagString: Untagged
@@ -303,6 +304,27 @@ MonoBehaviour:
   attackDelay: 1
   hitBox: {fileID: 5653044732632598439}
   trail: {fileID: 8967660493476588648}
+--- !u!65 &3338879694738556663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5341079786658266608}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.46, y: 0.75, z: 0.46}
+  m_Center: {x: 0, y: 0.375, z: 0.08}
 --- !u!1 &6716354879837247698
 GameObject:
   m_ObjectHideFlags: 0
