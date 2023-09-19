@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,6 +9,10 @@ public class SelectSlot : MonoBehaviour
     [SerializeField] GameObject Thumbnail;
     [SerializeField] GameObject FocusFrame;
 
+    public Slider health;
+    public Slider power;
+    public Slider speed;
+
     void Start()
     {
         ShowSlot();
@@ -15,14 +20,16 @@ public class SelectSlot : MonoBehaviour
 
     void ShowSlot()
     {
-        if (GameManager.Instance.PlayerCharacter != null)
-        {
-            Thumbnail.GetComponent<Image>().sprite = GameManager.Instance.PlayerCharacter.Thumbnail;
-        }
-        else
-        {
-            Thumbnail.GetComponent<Image>().sprite = this.DefaultCharacter.Thumbnail;
-        }
+        Character character = null;
+
+        if (GameManager.Instance.PlayerCharacter != null) 
+            character = GameManager.Instance.PlayerCharacter;
+        else { character = this.DefaultCharacter; }
+
+        Thumbnail.GetComponent<Image>().sprite = character.Thumbnail;
+        health.value = character.Health / 100.0f;
+        power.value = character.Power / 10.0f;
+        speed.value = character.Speed / 10.0f;
     }
 
     public void OnFocus(bool focus)

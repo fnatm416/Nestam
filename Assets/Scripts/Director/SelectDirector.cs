@@ -22,7 +22,7 @@ public class SelectDirector : MonoBehaviour
     }
 
     void ShowMonsters()
-    {        
+    {
         StageData data = GameManager.Instance.StageDatas[GameManager.Instance.Stage];
         for (int i = 0; i < NextMonsters.Length; i++)
         {
@@ -32,4 +32,5 @@ public class SelectDirector : MonoBehaviour
                 NextMonsters[i].color = Color.white;
             }
         }
-    }}
+    }
+}
