@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76f15c917732eb04eba85e6003670049, type: 3}
-  m_Name: Stage1
+  m_Name: Stage4
   m_EditorClassIdentifier: 
   monsters:
-  - {fileID: 8150539784526847574, guid: ed4e3fd316106ad49944c86ebe847f79, type: 3}
   - {fileID: 0}
-  - {fileID: 2002180750188890297, guid: 0a801d1c86f87e14da0b2d40a04d6b84, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}

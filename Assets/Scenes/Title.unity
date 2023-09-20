@@ -5324,6 +5324,7 @@ MonoBehaviour:
   StageDatas:
   - {fileID: 11400000, guid: 7835a92b0c9dc27428b9687601962760, type: 2}
   - {fileID: 11400000, guid: 420d917d8381fdd4ea05c1f67a711125, type: 2}
+  - {fileID: 11400000, guid: 63d917a02f19d2d438aa67975a9eda52, type: 2}
   DefeatedMonsters:
   - {fileID: 7436121553593375305, guid: 9fad50b6422e32a4297fef4411aac7f3, type: 3}
   - {fileID: 3346584057594091297, guid: 1065534111f97534a91e94b99aa26085, type: 3}
