@@ -35,13 +35,4 @@ public class Eyes : Character
             trails[i].Stop();
         }
     }
-
-    public override void OnInterrupt()
-    {
-        hitBox.enabled = false;
-        for (int i = 0; i < trails.Length; i++)
-        {
-            trails[i].Stop();
-        }
-    }
 }

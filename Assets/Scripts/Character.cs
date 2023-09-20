@@ -40,6 +40,10 @@ public abstract class Character : MonoBehaviour
     public void EndHit() { hittable.EndHit(); } //맞는모션 종료
 
 
-    public abstract void Init();  //캐릭터 관련 초기화
-    public abstract void OnInterrupt(); //캐릭터가 방해받았을 때 실행 ( GetHit, Die )
+    public abstract void Init();  //캐릭터 관련 초기화 
+    public void OnInterrupt()
+    {
+        //캐릭터가 방해받았을 때 실행 ( GetHit, Die )
+        Init();
+    }
 }

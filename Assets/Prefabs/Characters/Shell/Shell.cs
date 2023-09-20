@@ -18,10 +18,4 @@ public class Shell : Character
         hitBox.enabled = false;
         trail.Stop();
     }
-
-    public override void OnInterrupt()
-    {
-        hitBox.enabled = false;
-        trail.Stop();
-    }
 }

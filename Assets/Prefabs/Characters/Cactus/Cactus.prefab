@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 5826786272227057509}
   - component: {fileID: 3987450474247927423}
   - component: {fileID: 1972686862896434016}
+  - component: {fileID: 747106779584010610}
   m_Layer: 0
   m_Name: Cactus
   m_TagString: Untagged
@@ -392,6 +393,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &747106779584010610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2571422718315497747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c2428aa1a870a245b29e1156ab047da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Thumbnail: {fileID: 21300000, guid: 57625436651185b4a86bbebee49ae0fe, type: 3}
+  Health: 0
+  Power: 0
+  Speed: 0
+  DashDistance: 0
+  DashTime: 0
+  DashDelay: 0
+  attackRange: 0
+  attackDelay: 0
+  hitBoxs:
+  - {fileID: 7412214589871375370}
+  - {fileID: 6563372639305373733}
+  trails: []
 --- !u!1 &2690426702137186568
 GameObject:
   m_ObjectHideFlags: 0
