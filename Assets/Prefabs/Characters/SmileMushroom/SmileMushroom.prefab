@@ -170,13 +170,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &4371170968544948939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,16 +190,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: 7f55239d848f82c44ab606836bc540fe, type: 3}
-  Health: 0
-  Power: 0
-  Speed: 0
-  DashDistance: 0
-  DashTime: 0
-  DashDelay: 0
-  attackRange: 0
-  attackDelay: 0
-  hitBox: {fileID: 0}
-  trail: {fileID: 0}
+  Health: 100
+  Power: 10
+  Speed: 10
+  DashDistance: 5
+  DashTime: 0.25
+  DashDelay: 1
+  attackRange: 1.5
+  attackDelay: 1
+  hitBox: {fileID: 8235839754213908071}
+  trail: {fileID: 4361534729966042474}
 --- !u!1 &2116914412371984022
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1017733902808223017}
   - component: {fileID: 8235839754213908071}
+  - component: {fileID: 3444270496238159128}
   m_Layer: 0
   m_Name: mushroom_head
   m_TagString: Untagged
@@ -651,6 +652,7 @@ Transform:
   - {fileID: 5104560698502333490}
   - {fileID: 8058637272438568008}
   - {fileID: 1096692869410741977}
+  - {fileID: 4361534729966042468}
   m_Father: {fileID: 7565674682610626351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &8235839754213908071
@@ -668,12 +670,24 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.55
-  m_Center: {x: 0.3, y: 0, z: 0}
+  m_Radius: 0.5
+  m_Center: {x: 0.29, y: 0, z: 0}
+--- !u!114 &3444270496238159128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721565361140522652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c656c56302138d045b569453524e4fd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7037172847809756579
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,3 +787,78 @@ Transform:
   - {fileID: 7395183966900651858}
   m_Father: {fileID: 2803214769954359408}
   m_LocalEulerAnglesHint: {x: -4.5825055e-14, y: -5.1901597e-15, z: 12.923602}
+--- !u!1001 &881626881817591197
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1017733902808223017}
+    m_Modifications:
+    - target: {fileID: 3511508362087596278, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596280, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_Name
+      value: SwordTrailLightningPurple
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.306
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.181
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5267639638789955222, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+--- !u!4 &4361534729966042468 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3511508362087596281, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+  m_PrefabInstance: {fileID: 881626881817591197}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4361534729966042474 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3511508362087596279, guid: 4b6aa19cc83fb5348bc7e44382626b73, type: 3}
+  m_PrefabInstance: {fileID: 881626881817591197}
+  m_PrefabAsset: {fileID: 0}
