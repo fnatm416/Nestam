@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stage1
   m_EditorClassIdentifier: 
   monsters:
-  - {fileID: 8150539784526847574, guid: ed4e3fd316106ad49944c86ebe847f79, type: 3}
+  - {fileID: 3447413085173827264, guid: 4af6c0a01baee6f4e8e89f3263117e43, type: 3}
   - {fileID: 0}
-  - {fileID: 2002180750188890297, guid: 0a801d1c86f87e14da0b2d40a04d6b84, type: 3}
+  - {fileID: 4371170968544948939, guid: 314ec2d0c64dd43498d6806a7e90b8d5, type: 3}

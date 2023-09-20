@@ -770,6 +770,7 @@ GameObject:
   - component: {fileID: 1809410917000438862}
   - component: {fileID: 5976473057405192485}
   - component: {fileID: 3346584057594091297}
+  - component: {fileID: 2322266128343288415}
   m_Layer: 0
   m_Name: Female
   m_TagString: Untagged
@@ -857,7 +858,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: 214d33854770efc4494b556237df685c, type: 3}
-  RootTransform: {fileID: 5054085813673538639}
   Health: 100
   Power: 10
   Speed: 10
@@ -868,6 +868,27 @@ MonoBehaviour:
   attackDelay: 1
   hitBox: {fileID: 4699878268908100153}
   trail: {fileID: 2110329481171850502}
+--- !u!65 &2322266128343288415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3234297403344411443}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.5, z: 1}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &3893080334404509017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,8 +1345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656c56302138d045b569453524e4fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 3346584057594091297}
-  effect: {fileID: 8216709111698010741, guid: b3603d920d30b3f438d72313cad85c2a, type: 3}
 --- !u!1 &4624413438938558385
 GameObject:
   m_ObjectHideFlags: 0
