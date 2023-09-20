@@ -302,6 +302,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         //캐릭터의 "캐릭터컨트롤러"를 참조
         controller = this.gameObject.AddComponent<CharacterController>();
         controller.slopeLimit = 0;
+        controller.stepOffset = 0;
         controller.center = character.GetComponent<CharacterController>().center * character.transform.localScale.x;
         controller.radius = character.GetComponent<CharacterController>().radius * character.transform.localScale.x;
         controller.height = character.GetComponent<CharacterController>().height * character.transform.localScale.x;
