@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Hitbox : MonoBehaviour
 {
-    [SerializeField] Character character;
-    [SerializeField] ParticleSystem effect;
-
+    Character character;
     IAttackable attacker;
 
     void Start()
     {
+        Transform parent = transform.parent;
+        while (!parent.GetComponent<Character>())
+        {
+            parent = parent.parent;
+        }
+        character = parent.GetComponent<Character>();
+
         attacker = character.transform.parent.GetComponent<IAttackable>();
     }
 
@@ -22,9 +27,12 @@ public class Hitbox : MonoBehaviour
         {
             if (other.CompareTag(attacker.TargetTag))
             {
-                hitter.GetDamage(character.Power);
-                GameObject effect = PoolManager.Instance.Get(this.effect.name);
+                string effectName = "";
+                if (other.CompareTag("Player")) { effectName = "SwordImpactRed"; }
+                else if (other.CompareTag("Monster")) { effectName = "SwordImpactBlue"; }
 
+                GameObject effect = PoolManager.Instance.Get(effectName);
+                hitter.GetDamage(character.Power);
                 effect.transform.position = other.ClosestPointOnBounds(transform.position);
                 StartCoroutine(ParticleEffect(effect.GetComponent<ParticleSystem>()));
             }

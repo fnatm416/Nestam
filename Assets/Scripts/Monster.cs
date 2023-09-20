@@ -82,6 +82,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     [Header("Component")]
     [SerializeField] Character character;
     [SerializeField] CharacterController controller;
+    [SerializeField] Animator animator;
 
     [Header("MonsterInfo")]
     [SerializeField] float health;
@@ -268,10 +269,10 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         character.GetComponent<CharacterController>().enabled = false;
 
         //캐릭터의 "캐릭터컨트롤러"를 참조
-        controller = gameObject.AddComponent<CharacterController>();
+        controller = this.gameObject.AddComponent<CharacterController>();
         controller.slopeLimit = 0;
-        controller.center = character.GetComponent<CharacterController>().center;
-        controller.radius = character.GetComponent<CharacterController>().radius;
+        controller.center = character.GetComponent<CharacterController>().center * character.transform.localScale.x;
+        controller.radius = character.GetComponent<CharacterController>().radius * character.transform.localScale.x;
         controller.height = character.GetComponent<CharacterController>().height;
 
         //상태 및 스텟 초기화

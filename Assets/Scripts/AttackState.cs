@@ -14,11 +14,11 @@ public class AttackState : StateMachineBehaviour
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
+    {       
         if (owner.ComboAttack)
         {
             character.PlayAnimation("Attack");
             return;
-        }        
+        }
     }
 }
