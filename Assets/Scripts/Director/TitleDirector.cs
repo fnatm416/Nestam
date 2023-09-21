@@ -19,11 +19,7 @@ public class TitleDirector : MonoBehaviour
         startButton.SetActive(true);
         difficulty.SetActive(false);
 
-        GameManager.Instance.DefeatedMonsters.Clear();
-        for(int i=0; i<GameManager.Instance.DefaultCharacters.Length; i++)
-        {
-            GameManager.Instance.DefeatedMonsters.Add(GameManager.Instance.DefaultCharacters[i]);
-        }
+        GameManager.Instance.Init();
     }
 
     public void ClickStartButton()

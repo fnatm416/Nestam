@@ -64,8 +64,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        Init();
+    }
+
+    public void Init()
+    {
+        Stage = 1;
+        DefeatedMonsters.Clear();
+        for (int i = 0; i < DefaultCharacters.Length; i++)
+        {
+            DefeatedMonsters.Add(DefaultCharacters[i]);
+        }
+    }
+
     public void MoveScene(int index)
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(Scenes[index].name);
     }
 
@@ -96,8 +112,8 @@ public class GameManager : MonoBehaviour
             MoveScene(1);
     }
 
-    public void GameOver()
+    public void GamePause(bool value)
     {
-        //HP가 0이되어 패배
+        Time.timeScale = value ? 0 : 1.0f;
     }
 }

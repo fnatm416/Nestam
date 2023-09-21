@@ -15,7 +15,9 @@ public class PlayDirector : MonoBehaviour
     [SerializeField] Slider playerHealth;
     [SerializeField] Slider monsterHealth;
 
-    [SerializeField] GameObject WinUi;
+    [SerializeField] GameObject winUI;
+    [SerializeField] GameObject loseUI;
+    [SerializeField] GameObject pauseUI;
     [SerializeField] FadeEffect fadeEffect;
 
     Player player;
@@ -38,7 +40,9 @@ public class PlayDirector : MonoBehaviour
 
     void Init()
     {
-        WinUi.SetActive(false);
+        winUI.SetActive(false);
+        loseUI.SetActive(false);
+        pauseUI.SetActive(false);
         CreatePlayer();
         CreateMonsters();
     }
@@ -101,10 +105,35 @@ public class PlayDirector : MonoBehaviour
     IEnumerator StageWinRoutine()
     {
         yield return new WaitForSeconds(1.0f);
-        WinUi.SetActive(true);
+        winUI.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         fadeEffect.FadeOut();
         yield return new WaitForSeconds(fadeEffect.fadeTime);
         GameManager.Instance.StageClear();
+    }
+
+    public void StageLose()
+    {
+        StartCoroutine(StageLoseRoutine());
+    }
+
+    IEnumerator StageLoseRoutine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        loseUI.SetActive(true);
+    }
+
+    public void Continue(bool value)
+    {
+        int index = value ? 1 : 0;
+        GameManager.Instance.MoveScene(index);
+    }
+
+    public void Pause(bool value)
+    {
+        player.Pause = value;
+        player.AttackPress = value;
+        pauseUI.SetActive(value);
+        GameManager.Instance.GamePause(value);
     }
 }

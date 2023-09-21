@@ -22,7 +22,7 @@ public class SelectSlot : MonoBehaviour
     {
         Character character = null;
 
-        if (GameManager.Instance.PlayerCharacter != null) 
+        if (GameManager.Instance.PlayerCharacter != null && GameManager.Instance.Stage > 1) 
             character = GameManager.Instance.PlayerCharacter;
         else { character = this.DefaultCharacter; }
 

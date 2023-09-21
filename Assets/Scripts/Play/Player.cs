@@ -91,6 +91,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public float MouseY;
     public bool AttackPress;
     public bool DashPress;
+    public bool Pause;
 
     [Header("PlayerInfo")]
     public Character Character;
@@ -121,12 +122,18 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
     void Update()
     {
+        if (Pause)
+            return;
+
         AddGravity();
         UpdateState();
     }
 
     void LateUpdate()
     {
+        if (Pause)
+            return;
+
         CameraRotation();
     }
 
@@ -184,6 +191,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                     StopCoroutine(HitTimer());
                     Character.OnInterrupt();
                     Character.PlayAnimation("Die");
+
+                    if (GameManager.Instance.MonsterCount > 0)
+                        PlayDirector.Instance.StageLose();
 
                     break;
                 }
@@ -295,7 +305,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     #region Methods
     public void Init()
     {
-        //초기화        
+        //초기화
+        Pause = false;
+
         Character = transform.GetComponentInChildren<Character>();
         Character.GetComponent<CharacterController>().enabled = false;
 
@@ -416,6 +428,12 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     void OnDash(InputValue value)
     {
         DashPress = value.isPressed;
+    }
+
+    void OnPause(InputValue value)
+    {
+        this.Pause = !this.Pause;
+        PlayDirector.Instance.Pause(this.Pause);
     }
     #endregion
 }

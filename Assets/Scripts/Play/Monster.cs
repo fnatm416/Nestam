@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 //AI를 가지고 플레이어를 공격하는 적
 public class Monster : MonoBehaviour, IAttackable, IHittable
@@ -173,7 +169,8 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     Character.PlayAnimation("Die");
 
                     GameManager.Instance.MonsterCount--;
-                    if (GameManager.Instance.MonsterCount <= 0) { PlayDirector.Instance.StageWin(); }
+                    if (GameManager.Instance.MonsterCount <= 0)
+                        PlayDirector.Instance.StageWin();
 
                     break;
                 }
