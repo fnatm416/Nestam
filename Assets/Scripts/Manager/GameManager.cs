@@ -9,6 +9,30 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public enum Difficulty
+    {
+        Easy,
+        Normal,
+        Hard
+    }
+    public Difficulty difficulty;
+    public float MonsterPower
+    {
+        get
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                        return 0.8f;
+                case Difficulty.Normal:
+                        return 1.0f;
+                case Difficulty.Hard:
+                        return 1.2f;
+            }
+            return 1.0f;
+        }
+    }
+
     public const float GetHitDamage = 20.0f;
     public const float HitResetTime = 3.0f;
     public const float RecoveryTime = 2.0f;
@@ -17,11 +41,11 @@ public class GameManager : MonoBehaviour
     public SceneAsset[] Scenes;
     public Player PlayerPrefab;
     public Monster MonsterPrefab;
+    public StageData[] StageDatas;
 
     [Header("State")]
     public Character PlayerCharacter;
-    public int Stage;
-    public StageData[] StageDatas;
+    public int Stage; 
     public List<Character> DefeatedMonsters;
 
     public int MonsterCount { get; set; }
@@ -38,19 +62,6 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-    void Start()
-    {
-        //SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    //{
-    //    if (scene.name == Scenes[2].name) 
-    //    { 
-    //    }
-    //}
-
 
     public void MoveScene(int index)
     {
