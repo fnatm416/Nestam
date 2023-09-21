@@ -25,7 +25,7 @@ public class RandomSlot : MonoBehaviour
 
     void ShowSlot()
     {
-        if (GameManager.Instance.Stage <= 0)
+        if (GameManager.Instance.Stage <= 1)
         {
             DefaultThumbnail.SetActive(true);
             RandomThumbnail.SetActive(false);
@@ -96,7 +96,7 @@ public class RandomSlot : MonoBehaviour
     {
         GameManager gm = GameManager.Instance;
 
-        if ( gm.Stage <= 0)
+        if ( gm.Stage <= 1)
         {
             GameManager.Instance.PlayerCharacter = this.DefaultCharacter;
         }    

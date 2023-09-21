@@ -41,7 +41,7 @@ public class SelectSlot : MonoBehaviour
     {
         GameManager gm = GameManager.Instance;
 
-        if (gm.Stage <= 0)
+        if (gm.Stage <= 1)
         {
             GameManager.Instance.PlayerCharacter = this.DefaultCharacter;
         }

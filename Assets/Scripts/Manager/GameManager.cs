@@ -23,11 +23,11 @@ public class GameManager : MonoBehaviour
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                        return 0.8f;
+                    return 0.8f;
                 case Difficulty.Normal:
-                        return 1.0f;
+                    return 1.0f;
                 case Difficulty.Hard:
-                        return 1.2f;
+                    return 1.2f;
             }
             return 1.0f;
         }
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     [Header("State")]
     public Character PlayerCharacter;
-    public int Stage; 
+    public int Stage;
     public List<Character> DefeatedMonsters;
 
     public int MonsterCount { get; set; }
@@ -86,16 +86,13 @@ public class GameManager : MonoBehaviour
     public void StageClear()
     {
         //몬스터를 모두 쓰러뜨리고 승리
-        AddDefeatedMonsters(this.StageDatas[Stage]);
+        AddDefeatedMonsters(this.StageDatas[Stage-1]);
         Stage++;
 
-        if (Stage > StageDatas.Length - 1)
-        {
-            print("Clear");
-            return;
-        }
-
-        MoveScene(1);
+        if (Stage > StageDatas.Length)
+            MoveScene(3);
+        else
+            MoveScene(1);
     }
 
     public void GameOver()

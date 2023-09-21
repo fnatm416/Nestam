@@ -36,14 +36,15 @@ public class PlayDirector : MonoBehaviour
     void CreateMonsters()
     {
         GameManager gm = GameManager.Instance;
+        int index = gm.Stage - 1;
 
-        for (int i = 0; i < gm.StageDatas[gm.Stage].monsters.Count; i++)
+        for (int i = 0; i < gm.StageDatas[index].monsters.Count; i++)
         {
-            if (gm.StageDatas[gm.Stage].monsters[i] == null)
+            if (gm.StageDatas[index].monsters[i] == null)
                 continue;
 
             Monster monster = Instantiate(gm.MonsterPrefab);
-            Instantiate(gm.StageDatas[gm.Stage].monsters[i], monster.transform, false);
+            Instantiate(gm.StageDatas[index].monsters[i], monster.transform, false);
             monster.transform.position = monsterPositions[i].transform.position;
 
             gm.MonsterCount++;
