@@ -30,9 +30,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         if (IsDie)
             return;
 
-        health -= damage;
+        Health -= damage;
 
-        if (health <= 0)
+        if (Health <= 0)
         {
             IsDie = true;
             ChangeState(State.Die);
@@ -82,10 +82,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public float RotateSpeed;   //캐릭터 회전속도
 
     [Header("Component")]
-    [SerializeField] GameObject cameraRoot;
-    [SerializeField] Character character;
+    [SerializeField] GameObject cameraRoot;   
     [SerializeField] CharacterController controller;
-
+    
     [Header("InputSystem")]
     public Vector2 InputVec;
     public float MouseX;
@@ -94,9 +93,10 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public bool DashPress;
 
     [Header("PlayerInfo")]
-    public float health;
-    public float power;
-    public float speed;
+    public Character Character;
+    public float Health;
+    public float Power;
+    public float Speed;
     [SerializeField] float attackDelay;
     [SerializeField] float dashDistance;
     [SerializeField] float dashTime;
@@ -137,8 +137,8 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         {
             state = newState;
 
-            if (state == State.Move) { character.PlayAnimation("Move", true); }
-            else { character.PlayAnimation("Move", false); }
+            if (state == State.Move) { Character.PlayAnimation("Move", true); }
+            else { Character.PlayAnimation("Move", false); }
 
             InitState(state);
         }
@@ -160,7 +160,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
                     AttackPress = false;
                     ComboAttack = false;
                     controller.Move(Vector3.zero);
-                    character.Attack();
+                    Character.Attack();
 
                     break;
                 }
@@ -174,16 +174,16 @@ public class Player : MonoBehaviour, IAttackable, IHittable
             case State.Hit:
                 {
                     Recovery = true;
-                    character.OnInterrupt();
-                    character.PlayAnimation("Hit");
+                    Character.OnInterrupt();
+                    Character.PlayAnimation("Hit");
 
                     break;
                 }
             case State.Die:
                 {
                     StopCoroutine(HitTimer());
-                    character.OnInterrupt();
-                    character.PlayAnimation("Die");
+                    Character.OnInterrupt();
+                    Character.PlayAnimation("Die");
 
                     break;
                 }
@@ -192,7 +192,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
     public void UpdateState()
     {
-        if (health <= 0)
+        if (Health <= 0)
             ChangeState(State.Die);
 
         switch (state)
@@ -296,27 +296,27 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public void Init()
     {
         //초기화        
-        character = transform.GetComponentInChildren<Character>();
-        character.GetComponent<CharacterController>().enabled = false;
+        Character = transform.GetComponentInChildren<Character>();
+        Character.GetComponent<CharacterController>().enabled = false;
 
         //캐릭터의 "캐릭터컨트롤러"를 참조
         controller = this.gameObject.AddComponent<CharacterController>();
         controller.slopeLimit = 0;
         controller.stepOffset = 0;
-        controller.center = character.GetComponent<CharacterController>().center * character.transform.localScale.x;
-        controller.radius = character.GetComponent<CharacterController>().radius * character.transform.localScale.x;
-        controller.height = character.GetComponent<CharacterController>().height * character.transform.localScale.x;
+        controller.center = Character.GetComponent<CharacterController>().center * Character.transform.localScale.x;
+        controller.radius = Character.GetComponent<CharacterController>().radius * Character.transform.localScale.x;
+        controller.height = Character.GetComponent<CharacterController>().height * Character.transform.localScale.x;
 
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
-        health = character.Health;
-        power = character.Power;
-        speed = character.Speed;
-        attackDelay = character.attackDelay;
+        Health = Character.Health;
+        Power = Character.Power;
+        Speed = Character.Speed;
+        attackDelay = Character.attackDelay;
         canAttack = true;
-        dashDistance = character.DashDistance;
-        dashTime = character.DashTime;
-        dashDelay = character.DashDelay;
+        dashDistance = Character.DashDistance;
+        dashTime = Character.DashTime;
+        dashDelay = Character.DashDelay;
         canDash = true;
 
         //인터페이스 초기화
@@ -352,12 +352,12 @@ public class Player : MonoBehaviour, IAttackable, IHittable
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
 
         //이동
-        controller.Move(targetDirection.normalized * speed * Time.deltaTime);
+        controller.Move(targetDirection.normalized * Speed * Time.deltaTime);
     }
 
     IEnumerator Dash()
     {
-        character.PlayAnimation("Dash", true);
+        Character.PlayAnimation("Dash", true);
 
         Vector3 inputDirection = new Vector3(InputVec.x, 0, InputVec.y);
         Vector3 cameraForward = new Vector3(cameraRoot.transform.forward.x, 0, cameraRoot.transform.forward.z);
@@ -378,7 +378,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         }
 
         DashPress = false;
-        character.PlayAnimation("Dash", false);
+        Character.PlayAnimation("Dash", false);
         StartCoroutine(DashDelay());
         ChangeState(State.Idle);
     }

@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     public StageData[] StageDatas;
 
     [Header("State")]
+    public Character[] DefaultCharacters;
     public Character PlayerCharacter;
     public int Stage;
     public List<Character> DefeatedMonsters;

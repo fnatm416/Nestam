@@ -32,9 +32,9 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         if (IsDie)
             return;
 
-        health -= damage;
+        Health -= damage;
 
-        if (health <= 0)
+        if (Health <= 0)
         {
             IsDie = true;
             ChangeState(State.Die);
@@ -80,21 +80,21 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     public float rotateSpeed;   //캐릭터 회전속도
 
     [Header("Component")]
-    [SerializeField] Character character;
     [SerializeField] CharacterController controller;
     [SerializeField] Animator animator;
 
     [Header("MonsterInfo")]
-    [SerializeField] float health;
-    [SerializeField] float power;
-    [SerializeField] float speed;
-    public float attackRange;
-    public float attackDelay;
-    public float dashDistance;
-    public float dashTime;
-    public float dashDelay;
-    public bool canAttack;
-    public bool canDash;
+    public Character Character;
+    public float Health;
+    public float Power;
+    public float Speed;
+    [SerializeField] public float attackRange;
+    [SerializeField] public float attackDelay;
+    [SerializeField] public float dashDistance;
+    [SerializeField] public float dashTime;
+    [SerializeField] public float dashDelay;
+    [SerializeField] public bool canAttack;
+    [SerializeField] public bool canDash;
     public enum State
     {
         Idle,
@@ -125,8 +125,8 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         {
             state = newState;
 
-            if (state == State.Move) { character.PlayAnimation("Move", true); }
-            else { character.PlayAnimation("Move", false); }
+            if (state == State.Move) { Character.PlayAnimation("Move", true); }
+            else { Character.PlayAnimation("Move", false); }
 
             InitState(state);
         }
@@ -148,7 +148,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                 {
                     canAttack = false;
                     controller.Move(Vector3.zero);
-                    character.Attack();
+                    Character.Attack();
 
                     break;
                 }
@@ -161,16 +161,16 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
             case State.Hit:
                 {
                     Recovery = true;
-                    character.OnInterrupt();
-                    character.PlayAnimation("Hit");
+                    Character.OnInterrupt();
+                    Character.PlayAnimation("Hit");
 
                     break;
                 }
             case State.Die:
                 {
                     StopCoroutine(HitTimer());
-                    character.OnInterrupt();
-                    character.PlayAnimation("Die");
+                    Character.OnInterrupt();
+                    Character.PlayAnimation("Die");
 
                     GameManager.Instance.MonsterCount--;
                     if (GameManager.Instance.MonsterCount <= 0) { GameManager.Instance.StageClear(); }
@@ -182,7 +182,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
 
     public void UpdateState()
     {
-        if (health <= 0)
+        if (Health <= 0)
             ChangeState(State.Die);
 
         switch (state)
@@ -235,7 +235,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                 }
             case State.Attack:
                 {
-                    if (TargetDisatance() <= character.attackRange)
+                    if (TargetDisatance() <= Character.attackRange)
                     {
                         if (FindTarget() != null && ComboAttack == false)
                         {
@@ -265,28 +265,28 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     public void Init()
     {
         //초기화        
-        character = transform.GetComponentInChildren<Character>();
-        character.GetComponent<CharacterController>().enabled = false;
+        Character = transform.GetComponentInChildren<Character>();
+        Character.GetComponent<CharacterController>().enabled = false;
 
         //캐릭터의 "캐릭터컨트롤러"를 참조
         controller = this.gameObject.AddComponent<CharacterController>();
         controller.slopeLimit = 0;
         controller.stepOffset = 0;
-        controller.center = character.GetComponent<CharacterController>().center * character.transform.localScale.x;
-        controller.radius = character.GetComponent<CharacterController>().radius * character.transform.localScale.x;
-        controller.height = character.GetComponent<CharacterController>().height * character.transform.localScale.x;
+        controller.center = Character.GetComponent<CharacterController>().center * Character.transform.localScale.x;
+        controller.radius = Character.GetComponent<CharacterController>().radius * Character.transform.localScale.x;
+        controller.height = Character.GetComponent<CharacterController>().height * Character.transform.localScale.x;
 
         //상태 및 스텟 초기화
         ChangeState(State.Idle);
-        health = character.Health * GameManager.Instance.MonsterPower;
-        power = character.Power * GameManager.Instance.MonsterPower;
-        speed = character.Speed * GameManager.Instance.MonsterPower;
-        attackRange = character.attackRange;
-        attackDelay = character.attackDelay;
+        Health = Character.Health * GameManager.Instance.MonsterPower;
+        Power = Character.Power * GameManager.Instance.MonsterPower;
+        Speed = Character.Speed * GameManager.Instance.MonsterPower;
+        attackRange = Character.attackRange;
+        attackDelay = Character.attackDelay;
         canAttack = true;
-        dashDistance = character.DashDistance;
-        dashTime = character.DashTime;
-        dashDelay = character.DashDelay;
+        dashDistance = Character.DashDistance;
+        dashTime = Character.DashTime;
+        dashDelay = Character.DashDelay;
         canDash = true;
 
         //인터페이스 초기화
@@ -332,12 +332,12 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotateSpeed * Time.deltaTime);
-        controller.Move(transform.forward * speed * Time.deltaTime);
+        controller.Move(transform.forward * Speed * Time.deltaTime);
     }
 
     IEnumerator Dash()
     {
-        character.PlayAnimation("Dash", true);
+        Character.PlayAnimation("Dash", true);
         Vector3 direction = (target.transform.position - transform.position).normalized;
         transform.forward = direction;
 
@@ -353,7 +353,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
             yield return null;
         }
 
-        character.PlayAnimation("Dash", false);
+        Character.PlayAnimation("Dash", false);
         ChangeState(State.Idle);
         StartCoroutine(DashDelay());
     }

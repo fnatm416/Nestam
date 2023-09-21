@@ -25,6 +25,6 @@ public class CharacterTest : MonoBehaviour
 
     void SetHealth()
     {
-        Player.health = this.health;
+        Player.Health = this.health;
     }
 }
