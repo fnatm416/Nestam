@@ -173,7 +173,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     character.PlayAnimation("Die");
 
                     GameManager.Instance.MonsterCount--;
-                    if (GameManager.Instance.MonsterCount<=0) { GameManager.Instance.StageClear(); }
+                    if (GameManager.Instance.MonsterCount <= 0) { GameManager.Instance.StageClear(); }
 
                     break;
                 }
@@ -190,8 +190,8 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
             case State.Idle:
                 {
                     target = FindTarget();
-                    if (target != null) 
-                    { 
+                    if (target != null)
+                    {
                         //공격
                         if (TargetDisatance() > attackRange) { ChangeState(State.Move); }
                         //이동
@@ -209,7 +209,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                         ChangeState(State.Idle);
                         break;
                     }
-                    
+
                     if (TargetDisatance() <= attackRange)
                     {
                         //공격

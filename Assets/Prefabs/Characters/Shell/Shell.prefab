@@ -788,7 +788,7 @@ MonoBehaviour:
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
-  attackRange: 1.5
+  attackRange: 2
   attackDelay: 0.25
   hitBox: {fileID: 5153870897033095446}
   trail: {fileID: 8411235971749789520}
