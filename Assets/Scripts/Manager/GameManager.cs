@@ -23,11 +23,11 @@ public class GameManager : MonoBehaviour
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    return 0.8f;
+                    return 0.5f;
                 case Difficulty.Normal:
-                    return 1.0f;
+                    return 0.75f;
                 case Difficulty.Hard:
-                    return 1.2f;
+                    return 1.0f;
             }
             return 1.0f;
         }

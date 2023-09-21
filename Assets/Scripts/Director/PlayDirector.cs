@@ -7,14 +7,24 @@ using UnityEngine.UI;
 
 public class PlayDirector : MonoBehaviour
 {
+    public static PlayDirector Instance;
+
     [SerializeField] Transform playerPosition;
     [SerializeField] Transform[] monsterPositions;
 
     [SerializeField] Slider playerHealth;
     [SerializeField] Slider monsterHealth;
 
+    [SerializeField] GameObject WinUi;
+    [SerializeField] FadeEffect fadeEffect;
+
     Player player;
     List<Monster> monsters = new List<Monster>();
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -28,8 +38,9 @@ public class PlayDirector : MonoBehaviour
 
     void Init()
     {
+        WinUi.SetActive(false);
         CreatePlayer();
-        CreateMonsters();       
+        CreateMonsters();
     }
 
     void CreatePlayer()
@@ -67,6 +78,9 @@ public class PlayDirector : MonoBehaviour
 
     void UpdateHealthBar()
     {
+        if (!player.Character)
+            return;
+
         playerHealth.value = player.Health / player.Character.Health;
 
         float sumHealth = 0;
@@ -77,5 +91,20 @@ public class PlayDirector : MonoBehaviour
             sumMaxHealth += monster.Character.Health * GameManager.Instance.MonsterPower;
         }
         monsterHealth.value = sumHealth / sumMaxHealth;
+    }
+
+    public void StageWin()
+    {
+        StartCoroutine(StageWinRoutine());
+    }
+
+    IEnumerator StageWinRoutine()
+    {
+        yield return new WaitForSeconds(1.0f);
+        WinUi.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        fadeEffect.FadeOut();
+        yield return new WaitForSeconds(fadeEffect.fadeTime);
+        GameManager.Instance.StageClear();
     }
 }
