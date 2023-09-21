@@ -274,7 +274,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         controller.stepOffset = 0;
         controller.center = character.GetComponent<CharacterController>().center * character.transform.localScale.x;
         controller.radius = character.GetComponent<CharacterController>().radius * character.transform.localScale.x;
-        controller.height = character.GetComponent<CharacterController>().height;
+        controller.height = character.GetComponent<CharacterController>().height * character.transform.localScale.x;
 
         //상태 및 스텟 초기화
         ChangeState(State.Idle);

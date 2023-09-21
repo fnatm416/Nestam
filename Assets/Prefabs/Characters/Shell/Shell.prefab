@@ -697,6 +697,7 @@ GameObject:
   - component: {fileID: 6593344001519762815}
   - component: {fileID: 1799383747596201789}
   - component: {fileID: -7268259868683276393}
+  - component: {fileID: 6254096277055478529}
   m_Layer: 0
   m_Name: Shell
   m_TagString: Untagged
@@ -781,7 +782,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: fe996e0861fa3a948aa5393de227c7ce, type: 3}
-  RootTransform: {fileID: 459821797950016675}
   Health: 100
   Power: 10
   Speed: 10
@@ -792,6 +792,27 @@ MonoBehaviour:
   attackDelay: 0.25
   hitBox: {fileID: 5153870897033095446}
   trail: {fileID: 8411235971749789520}
+--- !u!65 &6254096277055478529
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734132960519300542}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: -0.18}
 --- !u!1 &6208987449368958862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,8 +1111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656c56302138d045b569453524e4fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: -7268259868683276393}
-  effect: {fileID: 1527517236649021181, guid: adedbe71f84eaea4b939d8b50c5ecb04, type: 3}
 --- !u!1 &8336144092551346210
 GameObject:
   m_ObjectHideFlags: 0

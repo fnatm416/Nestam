@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 4132498104043331504}
   - component: {fileID: 3442729179998229407}
   - component: {fileID: 2520575361703193166}
+  - component: {fileID: 4194051646812919770}
   m_Layer: 0
   m_Name: Spider
   m_TagString: Untagged
@@ -370,6 +371,27 @@ MonoBehaviour:
   attackDelay: 1
   hitBox: {fileID: 6379179490117757719}
   trail: {fileID: 380521314581730261}
+--- !u!65 &4194051646812919770
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075658987119370443}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.75, y: 1, z: 0.75}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &4425632417110054813
 GameObject:
   m_ObjectHideFlags: 0
