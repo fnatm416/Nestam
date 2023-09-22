@@ -15,6 +15,7 @@ public class SelectDirector : MonoBehaviour
 
     void Init()
     {
+        GameManager.Instance.IsPlay = false;
         //몬스터 썸네일 적용
         ShowMonsters();
         //스테이지 수 표시

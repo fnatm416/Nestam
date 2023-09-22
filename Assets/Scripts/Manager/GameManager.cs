@@ -50,6 +50,19 @@ public class GameManager : MonoBehaviour
     public List<Character> DefeatedMonsters;
 
     public int MonsterCount { get; set; }
+    bool isPlay;
+    public bool IsPlay
+    {
+        get
+        {
+            return isPlay;
+        }
+        set
+        {
+            isPlay = value;
+            Cursor.lockState = isPlay ? CursorLockMode.Locked : CursorLockMode.None;
+        }
+    }
 
     void Awake()
     {
@@ -71,6 +84,7 @@ public class GameManager : MonoBehaviour
 
     public void Init()
     {
+        IsPlay = false;
         Stage = 1;
         DefeatedMonsters.Clear();
         for (int i = 0; i < DefaultCharacters.Length; i++)
@@ -103,7 +117,7 @@ public class GameManager : MonoBehaviour
     public void StageClear()
     {
         //몬스터를 모두 쓰러뜨리고 승리
-        AddDefeatedMonsters(this.StageDatas[Stage-1]);
+        AddDefeatedMonsters(this.StageDatas[Stage - 1]);
         Stage++;
 
         if (Stage > StageDatas.Length)

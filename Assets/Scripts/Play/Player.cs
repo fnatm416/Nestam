@@ -82,9 +82,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public float RotateSpeed;   //캐릭터 회전속도
 
     [Header("Component")]
-    [SerializeField] GameObject cameraRoot;   
+    [SerializeField] GameObject cameraRoot;
     [SerializeField] CharacterController controller;
-    
+
     [Header("InputSystem")]
     public Vector2 InputVec;
     public float MouseX;
@@ -92,6 +92,7 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public bool AttackPress;
     public bool DashPress;
     public bool Pause;
+    public bool MouseLock;
 
     [Header("PlayerInfo")]
     public Character Character;
@@ -307,6 +308,8 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     {
         //초기화
         Pause = false;
+        MouseLock = true;
+        Cursor.lockState = CursorLockMode.Locked;
 
         Character = transform.GetComponentInChildren<Character>();
         Character.GetComponent<CharacterController>().enabled = false;
@@ -403,6 +406,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
     void CameraRotation()
     {
+        if (state == State.Die)
+            return;
+
         MouseY = Mathf.Clamp(MouseY, MinAngle, MaxAngle);
 
         cameraRoot.transform.rotation = Quaternion.Euler(MouseY, MouseX, 0f);
@@ -430,10 +436,16 @@ public class Player : MonoBehaviour, IAttackable, IHittable
         DashPress = value.isPressed;
     }
 
-    void OnPause(InputValue value)
+    void OnPause()
     {
         this.Pause = !this.Pause;
         PlayDirector.Instance.Pause(this.Pause);
+    }
+
+    void OnMouseLock()
+    {
+        bool cursorLocked = (Cursor.lockState == CursorLockMode.Locked);
+        Cursor.lockState = cursorLocked ? CursorLockMode.None : CursorLockMode.Locked;
     }
     #endregion
 }

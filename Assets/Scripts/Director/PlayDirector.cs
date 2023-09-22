@@ -40,6 +40,7 @@ public class PlayDirector : MonoBehaviour
 
     void Init()
     {
+        GameManager.Instance.IsPlay = true;
         winUI.SetActive(false);
         loseUI.SetActive(false);
         pauseUI.SetActive(false);
@@ -105,6 +106,7 @@ public class PlayDirector : MonoBehaviour
     IEnumerator StageWinRoutine()
     {
         yield return new WaitForSeconds(1.0f);
+        GameManager.Instance.IsPlay = false;
         winUI.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         fadeEffect.FadeOut();
@@ -120,6 +122,7 @@ public class PlayDirector : MonoBehaviour
     IEnumerator StageLoseRoutine()
     {
         yield return new WaitForSeconds(2.0f);
+        GameManager.Instance.IsPlay = false;
         loseUI.SetActive(true);
     }
 
@@ -131,6 +134,9 @@ public class PlayDirector : MonoBehaviour
 
     public void Pause(bool value)
     {
+        if (!GameManager.Instance.IsPlay)
+            return;
+
         player.Pause = value;
         player.AttackPress = value;
         pauseUI.SetActive(value);
