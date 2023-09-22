@@ -31,7 +31,7 @@ public class Hitbox : MonoBehaviour
                 if (other.CompareTag("Player")) { effectName = "SwordImpactRed"; }
                 else if (other.CompareTag("Monster")) { effectName = "SwordImpactBlue"; }
 
-                GameObject effect = PoolManager.Instance.Get(effectName);
+                GameObject effect = ObjectPool.Instance.Get(effectName);
                 hitter.GetDamage(character.Power);
                 effect.transform.position = other.ClosestPointOnBounds(transform.position);
                 StartCoroutine(ParticleEffect(effect.GetComponent<ParticleSystem>()));
@@ -47,6 +47,6 @@ public class Hitbox : MonoBehaviour
             yield return null;
         }
 
-        PoolManager.Instance.Return(effect.gameObject);
+        ObjectPool.Instance.Return(effect.gameObject);
     }
 }

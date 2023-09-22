@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645233, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1822,8 +1822,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.49867457, y: 0.5013224, z: -0.5012349, w: -0.4987616}
-  m_LocalPosition: {x: 0.003014718, y: 59.75384, z: 0.17681977}
+  m_LocalRotation: {x: 0.5000172, y: -0.49998116, z: 0.49910927, w: 0.5008908}
+  m_LocalPosition: {x: 0, y: 60, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3707,7 +3707,7 @@ GameObject:
   - component: {fileID: 1089206905}
   - component: {fileID: 1089206904}
   m_Layer: 0
-  m_Name: Virtual Camera (1)
+  m_Name: Virtual Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3743,13 +3743,15 @@ PlayableDirector:
   m_GameObject: {fileID: 1089206903}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 6d3102121fbc4704a90b7d580a9dcec1, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: cadf61b5b75e76140bc8637e6f30e3b8, type: 2}
   m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 5618796321835180017, guid: 6d3102121fbc4704a90b7d580a9dcec1, type: 2}
+    value: {fileID: 1089206904}
+  - key: {fileID: 5618796321835180017, guid: cadf61b5b75e76140bc8637e6f30e3b8, type: 2}
     value: {fileID: 1089206904}
   m_ExposedReferences:
     m_References: []

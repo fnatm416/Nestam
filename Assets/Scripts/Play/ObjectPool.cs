@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PoolManager : MonoBehaviour
+public class ObjectPool : MonoBehaviour
 {
-    public static PoolManager Instance = null;
+    public static ObjectPool Instance = null;
 
     public GameObject[] prefabs;
     Dictionary<string, List<GameObject>> pools = new Dictionary<string, List<GameObject>>();
