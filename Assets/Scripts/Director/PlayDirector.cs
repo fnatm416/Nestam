@@ -19,7 +19,8 @@ public class PlayDirector : MonoBehaviour
     [SerializeField] GameObject loseUI;
     [SerializeField] GameObject pauseUI;
 
-    [SerializeField] FadeEffect fadeEffect;
+    [SerializeField] FadeEffect startUI;
+    [SerializeField] FadeEffect panel;
     [SerializeField] ShakeEffect shakeEffect;
 
     Player player;
@@ -42,12 +43,13 @@ public class PlayDirector : MonoBehaviour
 
     void Init()
     {
-        GameManager.Instance.IsPlay = true;
         winUI.SetActive(false);
         loseUI.SetActive(false);
         pauseUI.SetActive(false);
         CreatePlayer();
         CreateMonsters();
+
+        StartCoroutine(ShowGameStart());
     }
 
     void CreatePlayer()
@@ -83,6 +85,14 @@ public class PlayDirector : MonoBehaviour
         }
     }
 
+    IEnumerator ShowGameStart()
+    {
+        yield return new WaitForSeconds(1.0f);
+        startUI.FadeIn();
+        yield return new WaitForSeconds(startUI.fadeTime);
+        GameManager.Instance.IsPlay = true;
+    }
+
     void UpdateHealthBar()
     {
         if (!player.Character)
@@ -111,8 +121,9 @@ public class PlayDirector : MonoBehaviour
         GameManager.Instance.IsPlay = false;
         winUI.SetActive(true);
         yield return new WaitForSeconds(1.0f);
-        fadeEffect.FadeOut();
-        yield return new WaitForSeconds(fadeEffect.fadeTime);
+        panel.FadeOut();
+        yield return new WaitForSeconds(panel.fadeTime);
+
         GameManager.Instance.StageClear();
     }
 

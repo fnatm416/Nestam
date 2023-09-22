@@ -110,6 +110,9 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
 
     void Update()
     {
+        if (!GameManager.Instance.IsPlay)
+            return;
+
         AddGravity();
         UpdateState();
     }

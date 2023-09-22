@@ -204,7 +204,19 @@ public class Player : MonoBehaviour, IAttackable, IHittable
     public void UpdateState()
     {
         if (Health <= 0)
+        {
+            //죽음
             ChangeState(State.Die);
+            return;
+        }
+
+        if (!GameManager.Instance.IsPlay && GameManager.Instance.MonsterCount > 0)
+        {
+            //게임 시작 전 움직임 제한
+            ChangeState(State.Idle);
+            return;
+        }
+            
 
         switch (state)
         {

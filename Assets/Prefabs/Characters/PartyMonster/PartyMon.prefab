@@ -2072,7 +2072,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 8c2a56618c4532e429033caa405ce542, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2119,6 +2119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: 98d90006391734a4bb8e38725f50ae1d, type: 3}
+  PhotoSize: {fileID: 0}
   Health: 100
   Power: 10
   Speed: 10

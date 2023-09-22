@@ -7,11 +7,11 @@ public class FadeEffect : MonoBehaviour
 {
     [Range(0.01f, 10.0f)]
     public float fadeTime;
-    Image panel;
+    Image image;
 
     void Awake()
     {
-        panel = GetComponent<Image>();
+        image = GetComponent<Image>();
     }
 
 
@@ -37,9 +37,9 @@ public class FadeEffect : MonoBehaviour
             currentTime += Time.deltaTime;
             percent = currentTime / fadeTime;
 
-            Color color = panel.color;
+            Color color = image.color;
             color.a = Mathf.Lerp(start, end, percent);
-            panel.color = color;
+            image.color = color;
 
             yield return null;
         }
