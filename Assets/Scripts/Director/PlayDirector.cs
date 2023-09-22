@@ -18,7 +18,9 @@ public class PlayDirector : MonoBehaviour
     [SerializeField] GameObject winUI;
     [SerializeField] GameObject loseUI;
     [SerializeField] GameObject pauseUI;
+
     [SerializeField] FadeEffect fadeEffect;
+    [SerializeField] ShakeEffect shakeEffect;
 
     Player player;
     List<Monster> monsters = new List<Monster>();
@@ -141,5 +143,10 @@ public class PlayDirector : MonoBehaviour
         player.AttackPress = value;
         pauseUI.SetActive(value);
         GameManager.Instance.GamePause(value);
+    }
+
+    public void CameraShake()
+    {
+        shakeEffect.CameraShake();
     }
 }
