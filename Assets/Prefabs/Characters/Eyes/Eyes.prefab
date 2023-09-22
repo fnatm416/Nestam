@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: 3b9a3637deaa07f4eaacb05008f1db85, type: 3}
+  PhotoSize: {fileID: 11400000, guid: fd6e34b117b406a4c846039ae86bb551, type: 2}
   Health: 100
   Power: 10
   Speed: 10
@@ -707,8 +708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656c56302138d045b569453524e4fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 2607686459174500827}
-  effect: {fileID: 1527517236649021181, guid: adedbe71f84eaea4b939d8b50c5ecb04, type: 3}
 --- !u!1 &3236552837115660457
 GameObject:
   m_ObjectHideFlags: 0

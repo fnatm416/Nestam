@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class Character : MonoBehaviour
 {
     public Sprite Thumbnail;
+    public PhotoSize PhotoSize;
 
     [Header("Stat")]
     public float Health;

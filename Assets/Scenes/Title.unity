@@ -6194,8 +6194,8 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 772113065105268354, guid: 7187b90332cd662438501aef8edd1653, type: 3}
   MonsterPrefab: {fileID: 5609184865355943475, guid: c6763303cbff52e43822bb068f9bb7ee, type: 3}
   StageDatas:
-  - {fileID: 11400000, guid: 7835a92b0c9dc27428b9687601962760, type: 2}
   - {fileID: 11400000, guid: 420d917d8381fdd4ea05c1f67a711125, type: 2}
+  - {fileID: 11400000, guid: 7835a92b0c9dc27428b9687601962760, type: 2}
   - {fileID: 11400000, guid: 63d917a02f19d2d438aa67975a9eda52, type: 2}
   - {fileID: 11400000, guid: c12a0990205132c4a9514186e0ed3eeb, type: 2}
   - {fileID: 11400000, guid: be248fa8e5cb73546b9c2a9d9c6a9c82, type: 2}

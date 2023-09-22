@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    return 0.5f;
+                    return 0.1f;
                 case Difficulty.Normal:
                     return 0.75f;
                 case Difficulty.Hard:
@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
 
     public void GamePause(bool value)
     {
+        Cursor.lockState = value ? CursorLockMode.None : CursorLockMode.Locked;
         Time.timeScale = value ? 0 : 1.0f;
     }
 }
