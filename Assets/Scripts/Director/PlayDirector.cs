@@ -92,8 +92,9 @@ public class PlayDirector : MonoBehaviour
 
     IEnumerator ShowGameStart()
     {
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.Start);
         startUI.FadeOut(0.5f);
-        yield return new WaitForSeconds(startUI.fadeTime);
+        yield return new WaitForSeconds(startUI.fadeTime);        
         startUI.FadeIn(1.0f);
         yield return new WaitForSeconds(startUI.fadeTime);
         GameManager.Instance.IsPlay = true;
@@ -125,6 +126,8 @@ public class PlayDirector : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         GameManager.Instance.IsPlay = false;
+        SoundManager.Instance.StopBgm();
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.Win);
         winUI.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         panel.FadeOut(1.0f);
@@ -142,6 +145,8 @@ public class PlayDirector : MonoBehaviour
     {
         yield return new WaitForSeconds(2.0f);
         GameManager.Instance.IsPlay = false;
+        SoundManager.Instance.StopBgm();
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.Lose);
         loseUI.SetActive(true);
     }
 

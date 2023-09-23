@@ -18,7 +18,7 @@ public class IntroDirector : MonoBehaviour
         playableDirector.stopped += PlayableDirector_Stopped;
     }
 
-    private void PlayableDirector_Stopped(PlayableDirector obj)
+    public void PlayableDirector_Stopped(PlayableDirector obj)
     {
         StartCoroutine(IntroRoutine());
     }

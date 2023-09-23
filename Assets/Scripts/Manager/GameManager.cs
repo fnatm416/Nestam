@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    return 0.1f;
+                    return 0.5f;
                 case Difficulty.Normal:
                     return 0.75f;
                 case Difficulty.Hard:

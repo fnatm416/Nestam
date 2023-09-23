@@ -1044,6 +1044,9 @@ MonoBehaviour:
   sfxClips:
   - {fileID: 8300000, guid: d185fc89c722a194c85aec6e175968a8, type: 3}
   - {fileID: 8300000, guid: 3fd9986d4d567d94e8cca805ffbb1883, type: 3}
+  - {fileID: 8300000, guid: a06a8409c2177c14887c6601537bb39f, type: 3}
+  - {fileID: 8300000, guid: 9d65030721651e34790adba72f50202f, type: 3}
+  - {fileID: 8300000, guid: 58154e84af84a3f449ed38d37db17910, type: 3}
   sfxVolume: 0.5
   channels: 4
 --- !u!1 &528173673

@@ -87,6 +87,11 @@ public class SoundManager : MonoBehaviour
         bgmPlayer.Play();
     }
 
+    public void StopBgm()
+    {
+        bgmPlayer.Stop();
+    }
+
     //효과음 재생
     public void PlaySfx(Sfx sfx)
     {
