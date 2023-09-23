@@ -276,7 +276,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         ChangeState(State.Idle);
         Health = Character.Health * GameManager.Instance.MonsterPower;
         Power = Character.Power * GameManager.Instance.MonsterPower;
-        Speed = Character.Speed * GameManager.Instance.MonsterPower;
+        Speed = Character.Speed;
         attackRange = Character.attackRange;
         attackDelay = Character.attackDelay;
         canAttack = true;

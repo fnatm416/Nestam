@@ -9,6 +9,7 @@ public class IntroDirector : MonoBehaviour
 {
     [SerializeField] PlayableDirector playableDirector;
     [SerializeField] FadeEffect panel;
+    bool isSkip = false;
 
     void Start()
     {
@@ -16,10 +17,15 @@ public class IntroDirector : MonoBehaviour
 
         panel.FadeIn(2.0f);
         playableDirector.stopped += PlayableDirector_Stopped;
+        isSkip = false;
     }
 
     public void PlayableDirector_Stopped(PlayableDirector obj)
     {
+        if (isSkip)
+            return;
+
+        isSkip = true;
         StartCoroutine(IntroRoutine());
     }
 
