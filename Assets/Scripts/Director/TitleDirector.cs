@@ -16,10 +16,11 @@ public class TitleDirector : MonoBehaviour
 
     void Init()
     {
+        SoundManager.Instance.PlayBgm(SoundManager.Bgm.Title);
+
         startButton.SetActive(true);
         difficulty.SetActive(false);
-
-        GameManager.Instance.Init();
+        GameManager.Instance.Init();   
     }
 
     public void ClickStartButton()

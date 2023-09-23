@@ -35,6 +35,7 @@ public class Hitbox : MonoBehaviour
                 hitter.GetDamage(character.Power);
                 effect.transform.position = other.ClosestPointOnBounds(transform.position);
                 StartCoroutine(ParticleEffect(effect.GetComponent<ParticleSystem>()));
+                SoundManager.Instance.PlaySfx(SoundManager.Sfx.Hit);
                 PlayDirector.Instance.CameraShake();
             }
         }

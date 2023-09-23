@@ -9,6 +9,8 @@ public class EndingDirector : MonoBehaviour
 
     void Start()
     {
+        SoundManager.Instance.PlayBgm(SoundManager.Bgm.Ending);
+
         Character character = Instantiate(GameManager.Instance.PlayerCharacter, CharacterPosition, false);
         character.OnInterrupt();
 

@@ -46,6 +46,8 @@ public class PlayDirector : MonoBehaviour
 
     void Init()
     {
+        SoundManager.Instance.PlayBgm(SoundManager.Bgm.Play);
+
         winUI.SetActive(false);
         loseUI.SetActive(false);
         pauseUI.SetActive(false);

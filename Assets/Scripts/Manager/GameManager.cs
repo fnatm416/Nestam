@@ -77,10 +77,7 @@ public class GameManager : MonoBehaviour
         }
 
         SceneManager.sceneLoaded += (scene, mode) => { Time.timeScale = 1.0f; };
-    }
 
-    void Start()
-    {
         Init();
     }
 

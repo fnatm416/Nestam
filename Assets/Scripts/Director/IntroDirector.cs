@@ -12,6 +12,8 @@ public class IntroDirector : MonoBehaviour
 
     void Start()
     {
+        SoundManager.Instance.PlayBgm(SoundManager.Bgm.Intro);
+
         panel.FadeIn(2.0f);
         playableDirector.stopped += PlayableDirector_Stopped;
     }

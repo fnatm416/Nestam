@@ -15,6 +15,8 @@ public class SelectDirector : MonoBehaviour
 
     public void Init()
     {
+        SoundManager.Instance.PlayBgm(SoundManager.Bgm.Select);
+
         GameManager.Instance.IsPlay = false;
         //몬스터 썸네일 적용
         ShowMonsters();
