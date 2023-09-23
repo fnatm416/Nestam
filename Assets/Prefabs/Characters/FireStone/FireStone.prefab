@@ -161,11 +161,11 @@ MonoBehaviour:
   PhotoSize: {fileID: 11400000, guid: f78299ba696d8b343aae6395411e5c15, type: 2}
   Health: 70
   Power: 6
-  Speed: 6
+  Speed: 9
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
-  attackRange: 1.5
+  attackRange: 1.75
   attackDelay: 0.5
   hitBox: {fileID: 5509572891690052055}
   trail: {fileID: 8905986098794305806}

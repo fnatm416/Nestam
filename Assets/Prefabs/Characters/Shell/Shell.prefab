@@ -784,8 +784,8 @@ MonoBehaviour:
   Thumbnail: {fileID: 21300000, guid: fe996e0861fa3a948aa5393de227c7ce, type: 3}
   PhotoSize: {fileID: 0}
   Health: 50
-  Power: 5
-  Speed: 5
+  Power: 6
+  Speed: 8
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1

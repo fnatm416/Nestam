@@ -162,11 +162,11 @@ MonoBehaviour:
   PhotoSize: {fileID: 0}
   Health: 50
   Power: 5
-  Speed: 5
+  Speed: 8
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
-  attackRange: 1.5
+  attackRange: 1.75
   attackDelay: 0.5
   hitBox: {fileID: 7710022468404200981}
   trail: {fileID: 3659776451912212715}

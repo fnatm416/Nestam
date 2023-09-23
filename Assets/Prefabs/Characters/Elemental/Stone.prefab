@@ -783,10 +783,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
-  m_Height: 1
+  m_Radius: 0.3
+  m_Height: 1.5
   m_Direction: 0
-  m_Center: {x: 0.5, y: 0, z: 0}
+  m_Center: {x: 0.15, y: -0.1, z: 0}
 --- !u!1 &4791374936570916902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,11 +1575,11 @@ MonoBehaviour:
   PhotoSize: {fileID: 11400000, guid: ad12623158e8bb74db1a4feeb04eb6a9, type: 2}
   Health: 80
   Power: 8
-  Speed: 7
+  Speed: 8
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
-  attackRange: 1.5
+  attackRange: 2.5
   attackDelay: 0.5
   hitBox: {fileID: 2492833306505390876}
   trail: {fileID: 4226826707457090660}

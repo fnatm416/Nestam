@@ -918,7 +918,7 @@ MonoBehaviour:
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
-  attackRange: 1.5
+  attackRange: 1.75
   attackDelay: 0.5
   hitBoxs:
   - {fileID: 183504368407641813}

@@ -296,7 +296,7 @@ MonoBehaviour:
   PhotoSize: {fileID: 0}
   Health: 50
   Power: 5
-  Speed: 5
+  Speed: 9
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
