@@ -263,12 +263,12 @@ MonoBehaviour:
   PhotoSize: {fileID: 11400000, guid: c688bea733033714e9935e8ea42229a7, type: 2}
   Health: 100
   Power: 10
-  Speed: 10
+  Speed: 8
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
-  attackRange: 3
-  attackDelay: 1
+  attackRange: 1.5
+  attackDelay: 0.5
   hitBoxs:
   - {fileID: 8137118190645853174}
   - {fileID: 8900115922749482319}

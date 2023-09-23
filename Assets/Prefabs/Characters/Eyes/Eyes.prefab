@@ -385,14 +385,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 21300000, guid: 3b9a3637deaa07f4eaacb05008f1db85, type: 3}
   PhotoSize: {fileID: 11400000, guid: fd6e34b117b406a4c846039ae86bb551, type: 2}
-  Health: 100
-  Power: 10
-  Speed: 10
+  Health: 60
+  Power: 6
+  Speed: 6
   DashDistance: 5
   DashTime: 0.25
   DashDelay: 1
   attackRange: 1.2
-  attackDelay: 1
+  attackDelay: 0.5
   hitBox: {fileID: 1647124652783670565}
   trails:
   - {fileID: 5155195058471060577}
