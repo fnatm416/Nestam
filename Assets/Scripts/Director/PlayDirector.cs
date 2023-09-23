@@ -42,6 +42,7 @@ public class PlayDirector : MonoBehaviour
     void Update()
     {
         UpdateHealthBar();
+        StageCheck();
     }
 
     void Init()
@@ -117,15 +118,34 @@ public class PlayDirector : MonoBehaviour
         monsterHealth.value = sumHealth / sumMaxHealth;
     }
 
-    public void StageWin()
+    void StageCheck()
+    {
+        if (!GameManager.Instance.IsPlay)
+            return;
+
+        //몬스터가 없으면 승리
+        if (GameManager.Instance.MonsterCount <= 0)
+        {
+            StageWin();
+            return;
+        }
+        //플레이어가 죽으면 패배    
+        if (player.state == Player.State.Die)
+        {
+            StageLose();
+            return;
+        }
+    }
+
+    void StageWin()
     {
         StartCoroutine(StageWinRoutine());
     }
 
     IEnumerator StageWinRoutine()
     {
-        yield return new WaitForSeconds(1.0f);
         GameManager.Instance.IsPlay = false;
+        yield return new WaitForSeconds(1.0f);
         SoundManager.Instance.StopBgm();
         SoundManager.Instance.PlaySfx(SoundManager.Sfx.Win);
         winUI.SetActive(true);
@@ -136,15 +156,15 @@ public class PlayDirector : MonoBehaviour
         GameManager.Instance.StageClear();
     }
 
-    public void StageLose()
+    void StageLose()
     {
         StartCoroutine(StageLoseRoutine());
     }
 
     IEnumerator StageLoseRoutine()
     {
-        yield return new WaitForSeconds(2.0f);
         GameManager.Instance.IsPlay = false;
+        yield return new WaitForSeconds(2.0f);
         SoundManager.Instance.StopBgm();
         SoundManager.Instance.PlaySfx(SoundManager.Sfx.Lose);
         loseUI.SetActive(true);

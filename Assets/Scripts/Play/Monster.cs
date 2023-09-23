@@ -100,7 +100,7 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
         Hit,
         Die
     }
-    [SerializeField] State state;
+    public State state { get; private set; }
     [SerializeField] GameObject target;
 
     void Start()
@@ -170,10 +170,6 @@ public class Monster : MonoBehaviour, IAttackable, IHittable
                     StopCoroutine(HitTimer());
                     Character.OnInterrupt();
                     Character.PlayAnimation("Die");
-
-                    GameManager.Instance.MonsterCount--;
-                    if (GameManager.Instance.MonsterCount <= 0)
-                        PlayDirector.Instance.StageWin();
 
                     break;
                 }

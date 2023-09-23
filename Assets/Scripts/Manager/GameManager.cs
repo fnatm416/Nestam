@@ -85,6 +85,11 @@ public class GameManager : MonoBehaviour
         Init();
     }
 
+    void Update()
+    {
+        MonsterCheck();
+    }
+
     public void Init()
     {
         IsPlay = false;
@@ -94,6 +99,21 @@ public class GameManager : MonoBehaviour
         {
             DefeatedMonsters.Add(DefaultCharacters[i]);
         }
+    }
+
+    void MonsterCheck()
+    {
+        Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
+        int sum = 0;
+        foreach(Monster monster in monsters)
+        {
+            if (monster.state == Monster.State.Die)
+                continue;
+
+            sum++;
+        }
+
+        MonsterCount = sum;
     }
 
     public void AddDefeatedMonsters(StageData data)
