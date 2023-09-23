@@ -25,6 +25,7 @@ public class IntroDirector : MonoBehaviour
 
     IEnumerator IntroRoutine()
     {
+        yield return new WaitForSeconds(1.0f);
         panel.FadeOut(1.5f);
         yield return new WaitForSeconds(panel.fadeTime);
         playableDirector.stopped -= PlayableDirector_Stopped;
