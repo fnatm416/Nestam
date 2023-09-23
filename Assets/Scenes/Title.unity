@@ -6151,6 +6151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   difficulty: 0
+  Easy_Value: 0.5
+  Normal_Value: 0.75
+  Hard_Value: 1
   PlayerPrefab: {fileID: 772113065105268354, guid: 7187b90332cd662438501aef8edd1653, type: 3}
   MonsterPrefab: {fileID: 5609184865355943475, guid: c6763303cbff52e43822bb068f9bb7ee, type: 3}
   StageDatas:

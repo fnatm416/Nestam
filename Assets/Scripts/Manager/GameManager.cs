@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
         Hard
     }
     public Difficulty difficulty;
+    [Header("Difficulty")]
+    [SerializeField] float Easy_Value;
+    [SerializeField] float Normal_Value;
+    [SerializeField] float Hard_Value;
     public float MonsterPower
     {
         get
@@ -24,11 +28,11 @@ public class GameManager : MonoBehaviour
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    return 0.5f;
+                    return Easy_Value;
                 case Difficulty.Normal:
-                    return 0.75f;
+                    return Normal_Value;
                 case Difficulty.Hard:
-                    return 1.0f;
+                    return Hard_Value;
             }
             return 1.0f;
         }
