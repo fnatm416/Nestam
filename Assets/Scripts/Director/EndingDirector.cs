@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndingDirector : MonoBehaviour
 {
@@ -21,6 +22,6 @@ public class EndingDirector : MonoBehaviour
 
     public void MoveTitle()
     {
-        GameManager.Instance.MoveScene(0);
+        SceneManager.LoadScene("Title");
     }
 }

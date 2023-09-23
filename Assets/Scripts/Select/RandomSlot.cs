@@ -106,6 +106,6 @@ public class RandomSlot : MonoBehaviour
             GameManager.Instance.PlayerCharacter = gm.DefeatedMonsters[random];
         }
         
-        SceneManager.LoadScene(GameManager.Instance.Scenes[2].name);
+        SceneManager.LoadScene("Play");
     }
 }

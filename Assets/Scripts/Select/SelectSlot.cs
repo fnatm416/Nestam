@@ -50,6 +50,6 @@ public class SelectSlot : MonoBehaviour
             GameManager.Instance.PlayerCharacter = gm.PlayerCharacter;
         }
 
-        SceneManager.LoadScene(GameManager.Instance.Scenes[2].name);
+        SceneManager.LoadScene("Play");
     }
 }

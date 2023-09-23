@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class FadeEffect : MonoBehaviour
 {
-    [Range(0.01f, 10.0f)]
-    public float fadeTime;
+    public float fadeTime { get; set; }
     Image image;
 
     void Awake()
@@ -15,15 +14,17 @@ public class FadeEffect : MonoBehaviour
     }
 
 
-    public void FadeIn()
+    public void FadeIn(float time)
     {
         //Á¡Á¡ ¹à¾ÆÁü
+        this.fadeTime = time;
         StartCoroutine(Fade(1, 0));
     }
 
-    public void FadeOut()
+    public void FadeOut(float time)
     {
         //Á¡Á¡ ¾îµÎ¿öÁü
+        this.fadeTime = time;
         StartCoroutine(Fade(0, 1));
     }
 

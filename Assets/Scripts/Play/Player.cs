@@ -450,6 +450,9 @@ public class Player : MonoBehaviour, IAttackable, IHittable
 
     void OnPause()
     {
+        if (!GameManager.Instance.IsPlay)
+            return;
+
         this.Pause = !this.Pause;
         PlayDirector.Instance.Pause(this.Pause);
     }

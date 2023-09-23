@@ -13,13 +13,18 @@ public class SelectDirector : MonoBehaviour
         Init();
     }
 
-    void Init()
+    public void Init()
     {
         GameManager.Instance.IsPlay = false;
         //몬스터 썸네일 적용
         ShowMonsters();
         //스테이지 수 표시
         StageText.text = string.Format("Stage {0}", GameManager.Instance.Stage);
+    }
+
+    public void BackToTitle()
+    {
+        SceneManager.LoadScene("Title");
     }
 
     void ShowMonsters()

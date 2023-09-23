@@ -2,7 +2,9 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayDirector : MonoBehaviour
@@ -18,6 +20,7 @@ public class PlayDirector : MonoBehaviour
     [SerializeField] GameObject winUI;
     [SerializeField] GameObject loseUI;
     [SerializeField] GameObject pauseUI;
+    [SerializeField] TextMeshProUGUI chapterUI;
 
     [SerializeField] FadeEffect startUI;
     [SerializeField] FadeEffect panel;
@@ -87,8 +90,9 @@ public class PlayDirector : MonoBehaviour
 
     IEnumerator ShowGameStart()
     {
-        yield return new WaitForSeconds(1.0f);
-        startUI.FadeIn();
+        startUI.FadeOut(0.5f);
+        yield return new WaitForSeconds(startUI.fadeTime);
+        startUI.FadeIn(1.0f);
         yield return new WaitForSeconds(startUI.fadeTime);
         GameManager.Instance.IsPlay = true;
     }
@@ -121,7 +125,7 @@ public class PlayDirector : MonoBehaviour
         GameManager.Instance.IsPlay = false;
         winUI.SetActive(true);
         yield return new WaitForSeconds(1.0f);
-        panel.FadeOut();
+        panel.FadeOut(1.0f);
         yield return new WaitForSeconds(panel.fadeTime);
 
         GameManager.Instance.StageClear();
@@ -141,18 +145,16 @@ public class PlayDirector : MonoBehaviour
 
     public void Continue(bool value)
     {
-        int index = value ? 1 : 0;
-        GameManager.Instance.MoveScene(index);
+        string sceneName = value ? "Select" : "Title";
+        SceneManager.LoadScene(sceneName);
     }
 
     public void Pause(bool value)
     {
-        if (!GameManager.Instance.IsPlay)
-            return;
-
         player.Pause = value;
         player.AttackPress = value;
         pauseUI.SetActive(value);
+        chapterUI.text = "STAGE " + GameManager.Instance.Stage;
         GameManager.Instance.GamePause(value);
     }
 

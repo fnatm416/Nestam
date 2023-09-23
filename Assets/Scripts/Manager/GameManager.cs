@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -38,7 +39,6 @@ public class GameManager : MonoBehaviour
     public const float RecoveryTime = 2.0f;
 
     [Header("Prefab")]
-    public SceneAsset[] Scenes;
     public Player PlayerPrefab;
     public Monster MonsterPrefab;
     public StageData[] StageDatas;
@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        SceneManager.sceneLoaded += (scene, mode) => { Time.timeScale = 1.0f; };
     }
 
     void Start()
@@ -91,12 +93,6 @@ public class GameManager : MonoBehaviour
         {
             DefeatedMonsters.Add(DefaultCharacters[i]);
         }
-    }
-
-    public void MoveScene(int index)
-    {
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene(Scenes[index].name);
     }
 
     public void AddDefeatedMonsters(StageData data)
@@ -121,9 +117,9 @@ public class GameManager : MonoBehaviour
         Stage++;
 
         if (Stage > StageDatas.Length)
-            MoveScene(3);
+            SceneManager.LoadScene("Ending");
         else
-            MoveScene(1);
+            SceneManager.LoadScene("Select");
     }
 
     public void GamePause(bool value)
