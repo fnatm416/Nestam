@@ -273,7 +273,6 @@ GameObject:
   - component: {fileID: 5826786272227057509}
   - component: {fileID: 552523606744492447}
   - component: {fileID: 747106779584010610}
-  - component: {fileID: 693673871147958115}
   m_Layer: 0
   m_Name: Cactus
   m_TagString: Untagged
@@ -373,23 +372,6 @@ MonoBehaviour:
   trails:
   - {fileID: 5028033817196515161}
   - {fileID: 8126417004332787460}
---- !u!320 &693673871147958115
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2571422718315497747}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: d02617eda9518614589770ba2b072544, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings: []
-  m_ExposedReferences:
-    m_References: []
 --- !u!1 &2690426702137186568
 GameObject:
   m_ObjectHideFlags: 0
